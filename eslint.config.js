@@ -7,6 +7,8 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unusedImports from 'eslint-plugin-unused-imports';
 import globals from 'globals';
 
+import { rules as cleanup } from './.eslint/eslint-plugin-cleanup.js';
+
 export default defineConfig([
   globalIgnores(['dist', 'node_modules']),
   {
@@ -25,12 +27,14 @@ export default defineConfig([
       },
     },
     plugins: {
+      cleanup: { rules: cleanup },
+
       perfectionist,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
     },
     rules: {
-      // 🧹 unused vars/imports
+      'cleanup/remove-junk': 'warn',
       'no-unused-vars': 'off',
       'perfectionist/sort-jsx-props': [
         'warn',
@@ -40,7 +44,6 @@ export default defineConfig([
           type: 'natural',
         },
       ],
-      // 🧩 perfectionist sorting (auto-fixable)
       'perfectionist/sort-objects': [
         'warn',
         {
@@ -51,7 +54,6 @@ export default defineConfig([
       ],
 
       'simple-import-sort/exports': 'warn',
-      // 🪄 import sorting
       'simple-import-sort/imports': 'warn',
 
       'unused-imports/no-unused-imports': 'warn',
