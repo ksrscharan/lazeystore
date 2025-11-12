@@ -11,13 +11,13 @@ function Navbar() {
   return (
     <Box color="black">
       <Flex
-        className="navbar"
-        justify="space-between"
         align="center"
+        className="navbar"
         direction="row"
+        justify="space-between"
         p={'sm'}
       >
-        <Text c="green.0" className="brandname" tt="uppercase" fw={900}>
+        <Text c="green.0" className="brandname" fw={900} tt="uppercase">
           LazeyStore
         </Text>
         <Group>

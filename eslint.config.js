@@ -30,7 +30,17 @@ export default defineConfig([
       'unused-imports': unusedImports,
     },
     rules: {
+      // 🧹 unused vars/imports
       'no-unused-vars': 'off',
+      'perfectionist/sort-jsx-props': [
+        'warn',
+        {
+          ignoreCase: true,
+          order: 'asc',
+          type: 'natural',
+        },
+      ],
+      // 🧩 perfectionist sorting (auto-fixable)
       'perfectionist/sort-objects': [
         'warn',
         {
@@ -39,9 +49,11 @@ export default defineConfig([
           type: 'natural',
         },
       ],
-      'simple-import-sort/exports': 'warn',
 
+      'simple-import-sort/exports': 'warn',
+      // 🪄 import sorting
       'simple-import-sort/imports': 'warn',
+
       'unused-imports/no-unused-imports': 'warn',
 
       'unused-imports/no-unused-vars': [

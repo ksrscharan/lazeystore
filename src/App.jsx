@@ -11,11 +11,11 @@ function App() {
       <MantineProvider theme={mode == 'light' ? lightTheme : darkTheme}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/deals" element={<Deals />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/wishlist" element={<WishList />} />
+            <Route element={<Dashboard />} path="/" />
+            <Route element={<Deals />} path="/deals" />
+            <Route element={<Login />} path="/login" />
+            <Route element={<SignUp />} path="/signup" />
+            <Route element={<WishList />} path="/wishlist" />
           </Routes>
         </BrowserRouter>
       </MantineProvider>

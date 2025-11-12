@@ -14,8 +14,8 @@ function GradientButton({
 }) {
   return (
     <Button
-      variant="gradient"
       gradient={{ deg: deg, from: fromColor, to: toColor }}
+      variant="gradient"
     >
       {children}
     </Button>
@@ -24,7 +24,7 @@ function GradientButton({
 
 function OutlineButton({ children }) {
   return (
-    <Button variant="outline" color="green.0">
+    <Button color="green.0" variant="outline">
       <Text>{children}</Text>
     </Button>
   );
@@ -33,9 +33,9 @@ function OutlineButton({ children }) {
 function IconButton({ children, leftSection, rightSection, variant }) {
   return (
     <Button
-      variant={variant}
       leftSection={leftSection}
       rightSection={rightSection}
+      variant={variant}
     >
       {children}
     </Button>

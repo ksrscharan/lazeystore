@@ -3,16 +3,16 @@ import './cards.css';
 function BasicCard() {
   return (
     <Card
-      shadow="sm"
-      padding="sm"
-      radius="md"
-      withBorder
       className="basic-card"
       color="green"
+      padding="sm"
+      radius="md"
+      shadow="sm"
+      withBorder
     >
       <Card.Section></Card.Section>
       <Card.Section px="sm"></Card.Section>
-      <Card.Section px="sm" pb="sm"></Card.Section>
+      <Card.Section pb="sm" px="sm"></Card.Section>
     </Card>
   );
 }
