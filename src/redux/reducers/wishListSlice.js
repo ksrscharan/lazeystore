@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const wishListSlice = createSlice({
-  name: 'wishList',
   initialState: {
     items: [],
   },
+  name: 'wishList',
   reducers: {
     addToWishList: (state, action) => {
       state.items.push(action.payload);

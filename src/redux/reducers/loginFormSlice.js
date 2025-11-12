@@ -1,20 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const loginFormSlice = createSlice({
-  name: 'loginForm',
   initialState: {
-    username: '',
     password: '',
+    username: '',
   },
+  name: 'loginForm',
   reducers: {
-    setUsername: (state, action) => {
-      state.username = action.payload;
-    },
     setPassword: (state, action) => {
       state.password = action.payload;
+    },
+    setUsername: (state, action) => {
+      state.username = action.payload;
     },
   },
 });
 
-export const { setUsername, setPassword } = loginFormSlice.actions;
+export const { setPassword, setUsername } = loginFormSlice.actions;
 export default loginFormSlice.reducer;

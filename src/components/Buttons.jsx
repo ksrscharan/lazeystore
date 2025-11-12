@@ -1,6 +1,3 @@
-import { Button, Text } from '@mantine/core';
-import React from 'react';
-
 function BasicButton({ children, ...props }) {
   return (
     <Button {...props} color="green.0">
@@ -10,15 +7,15 @@ function BasicButton({ children, ...props }) {
 }
 
 function GradientButton({
+  children,
+  deg = 45,
   fromColor = 'green.0',
   toColor = 'green.0',
-  deg = 45,
-  children,
 }) {
   return (
     <Button
       variant="gradient"
-      gradient={{ from: fromColor, to: toColor, deg: deg }}
+      gradient={{ deg: deg, from: fromColor, to: toColor }}
     >
       {children}
     </Button>
@@ -33,7 +30,7 @@ function OutlineButton({ children }) {
   );
 }
 
-function IconButton({ leftSection, rightSection, children, variant }) {
+function IconButton({ children, leftSection, rightSection, variant }) {
   return (
     <Button
       variant={variant}
@@ -44,4 +41,4 @@ function IconButton({ leftSection, rightSection, children, variant }) {
     </Button>
   );
 }
-export { BasicButton, GradientButton, OutlineButton, IconButton };
+export { BasicButton, GradientButton, IconButton, OutlineButton };

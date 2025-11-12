@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const accessTokenSlice = createSlice({
-  name: 'accessToken',
   initialState: {
     token: null,
   },
+  name: 'accessToken',
   reducers: {
     setAccessToken: (state, action) => {
       state.token = action.payload;

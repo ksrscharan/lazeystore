@@ -1,15 +1,8 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { MantineProvider } from '@mantine/core';
+import './App.css';
+
 import { useSelector } from 'react-redux';
 
-import './App.css';
-import { lightTheme, darkTheme } from './theme/theme.js';
-
-import Dashboard from './pages/dashboard/Dashboard';
-import Deals from './pages/deals/Deals';
-import Login from './pages/login/Login';
-import SignUp from './pages/signup/SignUp';
-import WishList from './pages/wishlist/WishList';
+import { darkTheme, lightTheme } from './theme/theme.js';
 
 function App() {
   const mode = useSelector((state) => state.theme.mode);
