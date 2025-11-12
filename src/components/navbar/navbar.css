@@ -1,0 +1,9 @@
+.navbar{
+    /* border: 1px solid red; */
+    border-radius: 0 0 1em 1em;
+    box-shadow: 0 0.5em 4px rgba(0, 0, 0, 0.1);
+}
+.brandname{
+    font-size: 24px;
+    font-weight: bold;
+}
