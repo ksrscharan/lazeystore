@@ -1,6 +1,6 @@
 import { createTheme } from '@mantine/core';
 
-export const lightTheme = createTheme({
+const lightTheme = createTheme({
     colorScheme: 'light',
     primaryColor: 'orange',
     white: '#f3fdea',
@@ -11,7 +11,7 @@ export const lightTheme = createTheme({
 
 });
 
-export const darkTheme = createTheme({
+const darkTheme = createTheme({
     colorScheme: 'dark',
     primaryColor: 'orange',
     black: '#f3fdea',
@@ -21,3 +21,4 @@ export const darkTheme = createTheme({
     }
 
 });
+export { lightTheme, darkTheme };
