@@ -1,8 +1,5 @@
-
 function Deals() {
-  return (
-    <div>Deals</div>
-  )
+  return <div>Deals</div>;
 }
 
-export default Deals
+export default Deals;

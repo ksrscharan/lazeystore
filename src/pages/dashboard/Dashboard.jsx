@@ -1,6 +1,6 @@
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 
-import Navbar from '../../components/navbar/Navbar'
+import Navbar from '../../components/navbar/Navbar';
 
 function Dashboard() {
   const mode = useSelector((state) => state.theme.mode);
@@ -8,7 +8,7 @@ function Dashboard() {
     <>
       <Navbar />
     </>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

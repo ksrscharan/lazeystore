@@ -1,10 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const loginFormSlice = createSlice({
-  name: "loginForm",
+  name: 'loginForm',
   initialState: {
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   },
   reducers: {
     setUsername: (state, action) => {
