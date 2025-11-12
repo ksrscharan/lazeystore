@@ -1,16 +1,70 @@
-# React + Vite
+# LazeyStore: Full-Stack E-Commerce Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Lazeystore is a full-stack e-commerce platform designed to provide a seamless shopping experience. It includes features like JWT authentication, an admin panel, and Docker support for easy deployment.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Full-Stack Architecture**: Combines a robust backend with a dynamic frontend.
+- **JWT Authentication**: Secure user authentication and session management.
+- **Admin Panel**: Manage products, users, and orders efficiently.
+- **Docker Support**: Simplified containerized deployment.
+- **Routing**: Intuitive navigation for users.
+- **Responsive Design**: Optimized for all devices.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React, Redux, CSS
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **Authentication**: JSON Web Tokens (JWT)
+- **Deployment**: Docker
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ksrscharan/lazeystore.git
+   cd lazeystore
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   cd server
+   npm install
+   ```
+
+3. Set up environment variables:
+   - Create a `.env` file in the `server` directory with the following:
+     ```
+     MONGO_URI=your_mongodb_connection_string
+     ```
+
+4. Start the development servers:
+   ```bash
+   # Start the frontend
+   npm run dev
+
+   # Start the backend
+   cd server
+   npm run dev
+   ```
+
+5. Access the application:
+   - Frontend: `http://localhost:5173`
+   - Backend API: `http://localhost:3000`
+
+## Docker Deployment
+
+1. Build and run the Docker containers:
+   ```bash
+   docker-compose up --build
+   ```
+
+2. Access the application:
+   - Frontend: `http://localhost:5173`
+   - Backend API: `http://localhost:3000`
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request.
