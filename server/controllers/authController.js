@@ -144,48 +144,43 @@ export const deleteAccount = async (req, res) => {
       return res.status(400).json({ message: 'Account does not exist' });
     }
 
-    
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    
     if (!refreshToken) {
       return res.status(401).json({ message: 'No refresh token provided' });
     }
 
-    
-    
-    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, decoded) => {
-      if (err) {
-        return res.status(403).json({ message: 'Invalid refresh token' });
-      }
+    jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET,
+      async (err, decoded) => {
+        if (err) {
+          return res.status(403).json({ message: 'Invalid refresh token' });
+        }
 
-      
-      if (decoded.email !== email) {
+        if (decoded.email !== email) {
+          return res
+            .status(403)
+            .json({ message: 'Token email does not match requested account' });
+        }
+
+        await deleteUser(email);
+
+        res.clearCookie('refreshToken', {
+          httpOnly: true,
+          sameSite: 'strict',
+          secure: process.env.NODE_ENV === 'production',
+        });
+
         return res
-          .status(403)
-          .json({ message: 'Token email does not match requested account' });
+          .status(200)
+          .json({ message: 'Account deleted successfully' });
       }
-
-      
-      await deleteUser(email);
-
-      res.clearCookie('refreshToken', {
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: process.env.NODE_ENV === 'production',
-      });
-
-      
-      return res.status(200).json({ message: 'Account deleted successfully' });
-    });
-
-    
-    
+    );
   } catch (error) {
-    
     return res.status(500).json({ message: error.message });
   }
 };
