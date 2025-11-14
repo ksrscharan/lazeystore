@@ -1,12 +1,21 @@
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3000;
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import mongoose from 'mongoose'
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+const authRouter = await import('./routes/auth.js');
+const app = express();
+const PORT = 3000;
+app.use(cookieParser());
+app.use(express.json());
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
+
+
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
+app.use('/auth', authRouter.default);

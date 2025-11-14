@@ -12,12 +12,26 @@ import { rules as cleanup } from './.eslint/eslint-plugin-cleanup.js';
 export default defineConfig([
   globalIgnores(['dist', 'node_modules']),
   {
+    extends: [js.configs.recommended],
+    files: ['server/**/*.{js,jsx}'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      globals: globals.node,
+      parserOptions: {
+        sourceType: 'module',
+      },
+    },
+    rules: {
+      'no-undefined': 'off',
+    },
+  },
+  {
     extends: [
       js.configs.recommended,
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
     ],
-    files: ['**/*.{js,jsx}'],
+    files: ['**/*.{js,jsx}', '!server/**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 'latest',
       globals: globals.browser,

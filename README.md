@@ -22,12 +22,14 @@ Lazeystore is a full-stack e-commerce platform designed to provide a seamless sh
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/ksrscharan/lazeystore.git
    cd lazeystore
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    cd server
@@ -41,6 +43,7 @@ Lazeystore is a full-stack e-commerce platform designed to provide a seamless sh
      ```
 
 4. Start the development servers:
+
    ```bash
    # Start the frontend
    npm run dev
@@ -57,6 +60,7 @@ Lazeystore is a full-stack e-commerce platform designed to provide a seamless sh
 ## Docker Deployment
 
 1. Build and run the Docker containers:
+
    ```bash
    docker-compose up --build
    ```
