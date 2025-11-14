@@ -29,6 +29,6 @@ export const findUserById = async (id) => {
 };
 
 
-export const deleteUser = (email) => {
-    UserModel.deleteOne({ email: email });
+export const deleteUser = async (email) => {
+    await UserModel.deleteOne({ email: email });
 };

@@ -157,7 +157,7 @@ export const deleteAccount = async (req, res) => {
 
     
     
-    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, decoded) => {
       if (err) {
         return res.status(403).json({ message: 'Invalid refresh token' });
       }
@@ -170,7 +170,7 @@ export const deleteAccount = async (req, res) => {
       }
 
       
-      deleteUser(email);
+      await deleteUser(email);
 
       res.clearCookie('refreshToken', {
         httpOnly: true,
