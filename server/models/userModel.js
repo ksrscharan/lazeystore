@@ -8,13 +8,11 @@ connectDB();
 const UserModel = mongoose.model('User', userSchema);
 
 export const createUser = async (user) => {
-  
   const newUser = await UserModel.create(user);
   return newUser;
 };
 
 export const findUserByEmail = async (email) => {
-  
   return await UserModel.findOne({ email: email });
 };
 

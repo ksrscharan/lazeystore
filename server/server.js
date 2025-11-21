@@ -9,13 +9,13 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+  res.send('Hello World!');
 });
 
 app.use('/auth', authRouter.default);
 
-app.use('/products', productsRouter.default)
+app.use('/products', productsRouter.default);

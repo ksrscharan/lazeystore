@@ -1,13 +1,13 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 export const productSchema = new mongoose.Schema({
-    available: Boolean,
-    availableCount: Number,
-    description: String,
-    imageUrl: Array,
-    price: Number,
-    title: String,
-    subTitle: String,
-    category: String,
-    subCategory: String
+  available: Boolean,
+  availableCount: Number,
+  category: String,
+  description: String,
+  imageUrl: Array,
+  price: Number,
+  subCategory: String,
+  subTitle: String,
+  title: String,
 });
