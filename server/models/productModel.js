@@ -47,3 +47,7 @@ export const updateProduct = async (productId, updatedFields) => {
 export const deleteProduct = async (productId) => {
   await ProductModel.findByIdAndDelete(productId);
 };
+
+export const findProductsByCategory = async (category) => {
+  return await ProductModel.find({ category: category });
+};

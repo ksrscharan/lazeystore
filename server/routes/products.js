@@ -1,6 +1,7 @@
 import express from 'express';
 
 import {
+  getProductsCategory,
   productCreate,
   productDelete,
   productsGet,
@@ -12,5 +13,6 @@ router.post('/create', productCreate);
 router.post('/update', productUpdate);
 router.get('/get', productsGet);
 router.post('/delete', productDelete);
+router.get('/category/:category', getProductsCategory);
 
 export default router;

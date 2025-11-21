@@ -3,6 +3,7 @@ import {
   deleteProduct,
   findProductById,
   findProductByTitle,
+  findProductsByCategory,
   getProducts,
   updateProduct,
 } from '../models/productModel.js';
@@ -64,5 +65,18 @@ export const productDelete = async (req, res) => {
     return res.status(200).json({ message: `Deleted Product with ID ${id}` });
   } catch (e) {
     return res.status(500).json({ message: e.message });
+  }
+};
+
+export const getProductsCategory = async (req, res) => {
+  const category = req.params.category;
+  try {
+    const products = await findProductsByCategory(category);
+    if (products) {
+      return res.status(200).json({ message: products });
+    }
+    return res.status(400).json({ message: 'No Matching Products Found!' });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
   }
 };
