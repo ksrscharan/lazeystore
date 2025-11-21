@@ -9,10 +9,10 @@ import {
 } from '../controllers/authController.js';
 
 const router = express.Router();
+router.post('/createAccessToken', createAccessToken);
+router.post('/deleteAccount', deleteAccount);
 router.post('/login', login);
 router.post('/logout', logout);
 router.post('/signup', signup);
-router.post('/createAccessToken', createAccessToken);
-router.post('/deleteAccount', deleteAccount);
 
 export default router;

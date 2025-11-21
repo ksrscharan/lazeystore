@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 
 const authRouter = await import('./routes/auth.js');
+const productsRouter = await import('./routes/products.js');
 const app = express();
 const PORT = 3000;
 app.use(cookieParser());
@@ -16,3 +17,5 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRouter.default);
+
+app.use('/products', productsRouter.default);
