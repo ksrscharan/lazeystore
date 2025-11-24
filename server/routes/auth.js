@@ -9,7 +9,7 @@ import {
 } from '../controllers/authController.js';
 
 const router = express.Router();
-router.post('/createAccessToken', createAccessToken);
+router.get('/createAccessToken', createAccessToken);
 router.post('/deleteAccount', deleteAccount);
 router.post('/login', login);
 router.post('/logout', logout);
