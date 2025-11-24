@@ -1,8 +1,11 @@
 import './navbar.css';
 
+import { Box, Flex, Group, Text } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { toggleTheme } from '../../redux/reducers/themeSlice';
+import { BasicButton } from '../Buttons';
+import Link from '../Link';
 
 function Navbar() {
   const dispatch = useDispatch();

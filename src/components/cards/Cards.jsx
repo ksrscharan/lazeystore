@@ -1,5 +1,7 @@
 import './cards.css';
 
+import { Card } from '@mantine/core';
+
 function BasicCard() {
   return (
     <Card

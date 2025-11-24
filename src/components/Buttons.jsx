@@ -1,3 +1,5 @@
+import { Button, Text } from '@mantine/core';
+
 function BasicButton({ children, ...props }) {
   return (
     <Button {...props} color="green.0">
