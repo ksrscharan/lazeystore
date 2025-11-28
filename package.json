@@ -5,15 +5,17 @@
   "type": "module",
   "scripts": {
     "lint": "npx prettier --write . && npx eslint . --fix",
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "concurrently \"npm run dev\" \"cd ./server && npm run dev\""
   },
   "dependencies": {
     "@mantine/core": "^8.3.5",
     "@mantine/hooks": "^8.3.5",
     "@reduxjs/toolkit": "^2.10.1",
     "@tabler/icons-react": "^3.35.0",
+    "axios": "^1.13.2",
     "firebase": "^12.5.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -21,12 +23,15 @@
     "react-router-dom": "^7.9.5"
   },
   "devDependencies": {
+    "@eslint/compat": "^2.0.0",
     "@eslint/js": "^9.36.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.4",
+    "concurrently": "^9.2.1",
     "eslint": "^9.36.0",
     "eslint-plugin-perfectionist": "^4.15.1",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "eslint-plugin-simple-import-sort": "^12.1.1",

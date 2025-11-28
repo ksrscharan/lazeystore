@@ -1,7 +1,14 @@
 import './App.css';
 
+import { MantineProvider } from '@mantine/core';
 import { useSelector } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import Dashboard from './pages/dashboard/Dashboard.jsx';
+import Deals from './pages/deals/Deals.jsx';
+import Login from './pages/login/Login.jsx';
+import SignUp from './pages/signup/SignUp.jsx';
+import WishList from './pages/wishlist/WishList.jsx';
 import { darkTheme, lightTheme } from './theme/theme.js';
 
 function App() {
