@@ -46,7 +46,6 @@ function Login() {
     axios.get('http://localhost:3000/auth/createAccessToken', {
       withCredentials: true
     }).then(res => {
-      console.log(token)
       dispatch(setAccessToken(res.data.accessToken));
       navigate('/');
     }).catch(e => {
@@ -152,7 +151,6 @@ function Login() {
                       setLoginError(false);
                     }} error={(loginError || !mailValid)} onBlur={(e) => {
                       setMailValid(emailIsValid(email))
-                      console.log(mailValid)
                     }}
                       rightSection={(!mailValid) ?
                         <IconExclamationCircle

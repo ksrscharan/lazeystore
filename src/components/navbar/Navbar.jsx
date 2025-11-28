@@ -35,9 +35,6 @@ function Navbar() {
         navigate("/login");
       });
   };
-  useEffect(()=>{
-    console.log(token)
-  }, [token])
 
   return (
     <Box color="black">

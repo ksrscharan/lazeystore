@@ -34,7 +34,6 @@ function SignUp() {
     }, {
       withCredentials: true,
     }).then(res => {
-      console.log(res.data.accessToken);
       dispatch(setAccessToken(res.data.accessToken))
       setSignupError(null);
       navigate('/')
@@ -154,7 +153,6 @@ function SignUp() {
                     }} error={(signupError || !mailValid)}
                       onBlur={() => {
                         setMailValid(emailIsValid(email))
-                        console.log(mailValid)
                       }}
                       rightSection={(!mailValid) ?
                         <IconExclamationCircle
