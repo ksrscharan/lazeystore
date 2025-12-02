@@ -1,4 +1,5 @@
 import { createTheme } from '@mantine/core';
+import { Input } from 'postcss';
 
 const breakpoints = {
   xs: '320px',
@@ -18,6 +19,21 @@ const lightTheme = createTheme({
   primaryColor: 'orange',
   white: '#f3fdea',
   breakpoints,
+  components: {
+    Input: {
+      styles: {
+        input: {
+          border: '1px solid var(--mantine-color-green-0)',
+          backgroundColor: 'transparent',
+          '&:focus-within': {
+            outline: '2px solid var(--mantine-color-blue-5)',
+            borderColor: 'var(--mantine-color-black)',
+          },
+        },
+      },
+
+    }
+  }
 });
 
 const darkTheme = createTheme({
@@ -30,5 +46,20 @@ const darkTheme = createTheme({
   primaryColor: 'orange',
   white: '#171e10',
   breakpoints,
+  components: {
+    Input: {
+      styles: {
+        input: {
+          border: '1px solid var(--mantine-color-green-0)',
+          backgroundColor: 'transparent',
+          '&:focus-within': {
+            outline: '2px solid var(--mantine-color-blue-5)',
+            borderColor: 'var(--mantine-color-black)',
+          },
+        },
+      },
+
+    }
+  }
 });
 export { darkTheme, lightTheme };

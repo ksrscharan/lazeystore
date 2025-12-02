@@ -9,6 +9,8 @@ import unusedImports from 'eslint-plugin-unused-imports';
 import globals from 'globals';
 
 import { rules as cleanup } from './.eslint/eslint-plugin-cleanup.js';
+import { rules as mantineRules } from './.eslint/eslint-plugin-mantine.js';
+
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
@@ -51,6 +53,7 @@ export default defineConfig([
     },
 
     plugins: {
+      mantine: { rules: mantineRules },
       cleanup: { rules: cleanup },
       perfectionist,
       react,
@@ -59,6 +62,7 @@ export default defineConfig([
     },
 
     rules: {
+      'mantine/sort-breakpoints': 'warn',
       'cleanup/remove-junk': 'warn',
       'no-unused-vars': 'off',
 
@@ -69,7 +73,13 @@ export default defineConfig([
 
       'perfectionist/sort-objects': [
         'warn',
-        { ignoreCase: true, order: 'asc', type: 'natural' },
+        {
+          ignoreCase: true,
+          order: 'asc',
+          type: 'natural',
+          ignorePattern: '^\\s*<',
+          ignoreJSX: true
+        },
       ],
       'react/prop-types': 'off',
 
