@@ -1,48 +1,57 @@
 import './navbar.css';
 
-import { Box, Flex, Group, Image, Text } from '@mantine/core';
+import { Box, Flex, Group, Image } from '@mantine/core';
+import { IconMoonStars, IconSun } from '@tabler/icons-react';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
+import lazeystoreImg from '../../assets/lazeystore.svg';
+import { setAccessToken } from '../../redux/reducers/accessTokenSlice';
 import { toggleTheme } from '../../redux/reducers/themeSlice';
 import { BasicButton } from '../buttons/Buttons';
 import Link from '../links/Link';
-import axios from 'axios';
-import { setAccessToken } from "../../redux/reducers/accessTokenSlice"
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import Search from '../search/Search';
-import { IconMoonStars, IconSun } from '@tabler/icons-react';
-import lazeystoreImg from '../../assets/lazeystore.svg'
 
 function Navbar() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const mode = useSelector((state) => state.theme.mode);
-  const token = useSelector(state => state.accessToken.token)
+  const token = useSelector((state) => state.accessToken.token);
 
   const handleLogout = () => {
-    axios.post("http://localhost:3000/auth/logout", {}, {
-      withCredentials: true,
-    })
+    axios
+      .post(
+        'http://localhost:3000/auth/logout',
+        {},
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
-        console.log("Logout successful:", res.data);
+        console.log('Logout successful:', res.data);
 
         dispatch(setAccessToken(null));
 
-        navigate("/login");
+        navigate('/login');
       })
       .catch((error) => {
-        console.error("Logout failed or server error:", error.message);
+        console.error('Logout failed or server error:', error.message);
 
         dispatch(setAccessToken(null));
-        navigate("/login");
+        navigate('/login');
       });
   };
 
   return (
-    <Flex miw={'100%'} direction={'column'} pos={'sticky'} top={0} style={{ zIndex: 3 }}>
-
-      <Box bg={'white'} w={'100%'} color="black" bd={'2px solid green.0'}>
+    <Flex
+      direction={'column'}
+      miw={'100%'}
+      pos={'sticky'}
+      style={{ zIndex: 3 }}
+      top={0}
+    >
+      <Box bd={'2px solid green.0'} bg={'white'} color="black" w={'100%'}>
         <Flex
           align="center"
           className="navbar"
@@ -50,27 +59,53 @@ function Navbar() {
           justify="space-between"
           p={'sm'}
         >
-          <Image style={{ cursor: 'pointer' }} onClick={() => { navigate('/') }} src={lazeystoreImg} w={'150px'}/>
-          {/* <Text size='1.5em' style={{ cursor: 'pointer' }} c="green.0" className="brandname" fw={900} tt="uppercase" onClick={() => { navigate('/') }}>
-            LazeyStore
-          </Text> */}
-          <Box w={"60%"} visibleFrom='lg'>
+          <Image
+            onClick={() => {
+              navigate('/');
+            }}
+            src={lazeystoreImg}
+            style={{ cursor: 'pointer' }}
+            w={'150px'}
+            loading='lazy' 
+          />
+          {}
+          <Box visibleFrom="lg" w={'60%'}>
             <Search />
           </Box>
           <Group>
             {token === null && <Link to={'/login'}>Log In</Link>}
-            {(token !== null) && <BasicButton onClick={handleLogout}>Log Out</BasicButton>}
+            {token !== null && (
+              <BasicButton onClick={handleLogout}>Log Out</BasicButton>
+            )}
 
-            <IconMoonStars display={mode == 'light' ? 'inherit' : 'none'} style={{ transition: 'display 0.5s linear', cursor: 'pointer' }} onClick={() => {
-              dispatch(toggleTheme());
-            }} />
-            <IconSun display={mode == 'light' ? 'none' : 'inherit'} style={{ transition: 'display 0.5s linear', cursor: 'pointer' }} onClick={() => {
-              dispatch(toggleTheme());
-            }} />
+            <IconMoonStars
+              display={mode == 'light' ? 'inherit' : 'none'}
+              onClick={() => {
+                dispatch(toggleTheme());
+              }}
+              style={{ cursor: 'pointer', transition: 'display 0.5s linear' }}
+            />
+            <IconSun
+              display={mode == 'light' ? 'none' : 'inherit'}
+              onClick={() => {
+                dispatch(toggleTheme());
+              }}
+              style={{ cursor: 'pointer', transition: 'display 0.5s linear' }}
+            />
           </Group>
         </Flex>
       </Box>
-      <Box py={'sm'} miw={"100%"} display={{ xs: 'inherit', sm: 'inherit', md: 'inherit', lg: 'none', xl: 'none', }}>
+      <Box
+        display={{
+          xs: 'inherit',
+          sm: 'inherit',
+          md: 'inherit',
+          lg: 'none',
+          xl: 'none'
+}}
+        miw={'100%'}
+        py={'sm'}
+      >
         <Search />
       </Box>
     </Flex>
