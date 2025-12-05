@@ -3,9 +3,16 @@ import {
   deleteProduct,
   findProductById,
   findProductByTitle,
-  findProductsByCategory,
   getProducts,
   updateProduct,
+  findProductBySlug,
+  getCategories,
+  getProductsByCategory,
+  getProductsWithDiscounts,
+  getSubCategories,
+  getProductsByCategorySubCategory,
+  getProductsBySubCategory,
+  getLatestProductsByCategory
 } from '../models/productModel.js';
 
 export const productCreate = async (req, res) => {
@@ -18,7 +25,7 @@ export const productCreate = async (req, res) => {
         .json({ message: 'Product with same title already exists' });
     }
     await createProduct(product);
-    return res.json(200).json({ message: 'Created SuccessFully' });
+    return res.status(200).json({ message: 'Created SuccessFully' });
   } catch (e) {
     return res.status(500).json({ message: e.message });
   }
@@ -70,13 +77,166 @@ export const productDelete = async (req, res) => {
 
 export const getProductsCategory = async (req, res) => {
   const category = req.params.category;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
   try {
-    const products = await findProductsByCategory(category);
+    const { products, totalCount } = await getProductsByCategory(category, skip, limit);
     if (products) {
-      return res.status(200).json({ message: products });
+      return res.status(200).json({
+        data: products,
+        meta: {
+          totalProducts: totalCount,
+          currentPage: page,
+          productsPerPage: limit,
+          totalPages: Math.ceil(totalCount / limit)
+        }
+      });
     }
     return res.status(400).json({ message: 'No Matching Products Found!' });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 };
+
+export const getProductsSubCategory = async (req, res) => {
+  const subCategory = req.params.subCategory;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+  try {
+    const { products, totalCount } = await getProductsBySubCategory(subCategory, skip, limit);
+    if (products) {
+      return res.status(200).json({
+        data: products,
+        meta: {
+          totalProducts: totalCount,
+          currentPage: page,
+          productsPerPage: limit,
+          totalPages: Math.ceil(totalCount / limit)
+        }
+      });
+    }
+    return res.status(400).json({ message: 'No Matching Products Found!' });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+export const getProductsCategorySubCategory = async (req, res) => {
+  const category = req.params.category;
+  const subCategory = req.params.subCategory;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  try {
+    const { products, totalCount } = await getProductsByCategorySubCategory(category, subCategory, skip, limit);
+    if (products) {
+      return res.status(200).json({
+        data: products,
+        meta: {
+          totalProducts: totalCount,
+          currentPage: page,
+          productsPerPage: limit,
+          totalPages: Math.ceil(totalCount / limit)
+        }
+      });
+    }
+    return res.status(400).json({ message: 'No Matching Products Found!' });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+export const getProductCategories = async (req, res) => {
+  const categories = await getCategories();
+  try {
+    return res.status(200).json({ message: categories })
+  } catch (e) {
+    res.status(500).json({ message: e.message })
+  }
+}
+
+export const getProductSubCategories = async (req, res) => {
+  const subCategories = await getSubCategories();
+  try {
+    return res.status(200).json(subCategories)
+  } catch (e) {
+    res.status(500).json({ message: e.message })
+  }
+}
+
+
+export const getDiscountedProducts = async (req, res) => {
+  const category = req.query.category;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  const skip = (page - 1) * limit;
+
+  if (!category) {
+    return res.status(400).json({ message: "Category query parameter is required." });
+  }
+  try {
+    const { products, totalCount } = await getProductsWithDiscounts(category, skip, limit);
+    return res.status(200).json({
+      data: products,
+      meta: {
+        totalProducts: totalCount,
+        currentPage: page,
+        productsPerPage: limit,
+        totalPages: Math.ceil(totalCount / limit)
+      }
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: "Internal server error." });
+  }
+};
+
+
+export const getProductDetailsBySlug = async (req, res) => {
+  const slug = req.body
+  const product = await findProductBySlug(slug);
+  try {
+    return res.status(200).json(product)
+  } catch (e) {
+    return res.status(500).json({ message: e.message })
+  }
+}
+export const getProductDetailsById = async (req, res) => {
+  const id = req.body
+  const product = await findProductById(id);
+  try {
+    return res.status(200).json(product)
+  } catch (e) {
+    return res.status(500).json({ message: e.message })
+  }
+}
+
+export const getLatestProducts = async (req, res) => {
+  const category = req.params.category
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  const skip = (page - 1) * limit;
+  if (!category) {
+    return res.status(400).json({ message: "Category query parameter is required." });
+  }
+  try {
+    const { products, totalCount } = await getLatestProductsByCategory(category, skip, limit)
+    return res.status(200).json({
+      data: products,
+      meta: {
+        totalProducts: totalCount,
+        currentPage: page,
+        productsPerPage: limit,
+        totalPages: Math.ceil(totalCount / limit)
+      }
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: "Internal server error." });
+  }
+}
