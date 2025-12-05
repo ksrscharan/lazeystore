@@ -13,12 +13,13 @@ import {
   productsGet,
   productUpdate,
 } from '../controllers/productController.js';
+import {authorizeAdmin} from '../middleware/adminAuthorization.js'
 
 const router = express.Router();
-router.post('/create', productCreate);
-router.post('/update', productUpdate);
+router.post('/create', authorizeAdmin, productCreate);
+router.post('/update', authorizeAdmin, productUpdate);
 router.get('/get', productsGet);
-router.post('/delete', productDelete);
+router.post('/delete', authorizeAdmin, productDelete);
 router.get('/category/:category/:subCategory', getProductsCategorySubCategory);
 router.get('/category/:category', getProductsCategory);
 router.get('/subcategory/:subCategory', getProductsSubCategory);

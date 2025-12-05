@@ -19,13 +19,16 @@ export const productCreate = async (req, res) => {
   try {
     const product = req.body;
     const existingProduct = await findProductByTitle(product.title);
+    if (!product || !product.title) {
+      return res.status(400).json({ message: 'Product data is missing.' });
+    }
     if (existingProduct) {
       return res
-        .status(400)
+        .status(409)
         .json({ message: 'Product with same title already exists' });
     }
     await createProduct(product);
-    return res.status(200).json({ message: 'Created SuccessFully' });
+    return res.status(201).json({ message: 'Created SuccessFully' });
   } catch (e) {
     return res.status(500).json({ message: e.message });
   }
@@ -53,7 +56,7 @@ export const productUpdate = async (req, res) => {
       return res.status(400).json({ message: `No Product with ID: ${id}` });
     }
     await updateProduct(id, updateFields);
-    return res.status(200).json({ message: 'Updated Successfully' });
+    return res.status(201).json({ message: 'Updated Successfully' });
   } catch (e) {
     return res
       .status(500)

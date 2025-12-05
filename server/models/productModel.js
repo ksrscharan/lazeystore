@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import { productSchema } from '../schema/productSchema.js';
-import { connectDB } from './mongoConnect.js';
+import { connectDB } from '../helpers/mongoConnect.js';
 
 connectDB();
 
