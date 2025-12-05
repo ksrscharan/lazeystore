@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-// Define the schema for the User
 export const userSchema = new mongoose.Schema(
   {
     email: {
@@ -15,7 +14,7 @@ export const userSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
-    firstName: { // Splitting name is better for personalization
+    firstName: {
       type: String,
       required: true,
       trim: true,
