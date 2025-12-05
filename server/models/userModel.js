@@ -13,7 +13,7 @@ export const createUser = async (user) => {
 };
 
 export const findUserByEmail = async (email) => {
-  return await UserModel.findOne({ email: email });
+  return await UserModel.findOne({ email: email }).select("+password");
 };
 
 export const findUserById = async (id) => {
