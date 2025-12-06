@@ -65,7 +65,6 @@ export const getProductsByCategorySubCategory = async (category, subCategory, sk
     .skip(skip)
     .limit(limit);
 
-  // Use countDocuments for better performance
   const totalCount = await ProductModel.countDocuments({
     category: category,
     subCategory: subCategory
@@ -92,7 +91,6 @@ export const getSubCategoriesBasedOnCategory = async (category) => {
 }
 
 export const getProductsWithDiscounts = async (category, skip = 0, limit = 10) => {
-  // 1. Define the base query for discounted products
   const query = {
     available: true,
     category: category,
@@ -101,12 +99,10 @@ export const getProductsWithDiscounts = async (category, skip = 0, limit = 10) =
     }
   };
 
-  // 2. Fetch the products with skip and limit
   const products = await ProductModel.find(query)
-    .skip(skip)   // Skip this number of documents
-    .limit(limit); // Return this number of documents
+    .skip(skip)   
+    .limit(limit);
 
-  // 3. (Optional but recommended) Get the total count for pagination info
   const totalCount = await ProductModel.countDocuments(query);
 
   return { products, totalCount };
@@ -131,7 +127,7 @@ export const getLatestProductsByCategory = async (category, skip = 0, limit = 10
 }
 
 export const searchProducts = async (searchTerm, skip = 0, limit = 10) => {
-  const regex = new RegExp(searchTerm, "i"); // Case-insensitive search
+  const regex = new RegExp(searchTerm, "i"); 
   const query = {
     $or: [
       { title: { $regex: regex } },
