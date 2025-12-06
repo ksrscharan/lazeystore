@@ -129,3 +129,21 @@ export const getLatestProductsByCategory = async (category, skip = 0, limit = 10
 
   return { products, totalCount }
 }
+
+export const searchProducts = async (searchTerm, skip = 0, limit = 10) => {
+  const regex = new RegExp(searchTerm, "i"); // Case-insensitive search
+  const query = {
+    $or: [
+      { title: { $regex: regex } },
+      { description: { $regex: regex } },
+      { subTitle: { $regex: regex } },
+      { category: { $regex: regex } },
+      { subCategory: { $regex: regex } },
+    ],
+  };
+
+  const products = await ProductModel.find(query).skip(skip).limit(limit);
+  const totalCount = await ProductModel.countDocuments(query);
+
+  return { products, totalCount };
+};

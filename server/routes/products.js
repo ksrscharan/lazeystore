@@ -13,6 +13,7 @@ import {
   productDelete,
   productsGet,
   productUpdate,
+  productSearch,
 } from '../controllers/productController.js';
 import {authorizeAdmin} from '../middleware/adminAuthorization.js'
 
@@ -29,5 +30,6 @@ router.get('/subcategories', getProductSubCategories);
 router.get('/deals', getDiscountedProducts);
 router.get('/latest/:category', getLatestProducts);
 router.get('/:category/subcategories', getSubCategoriesByCategory);
+router.get('/search', productSearch);
 
 export default router;

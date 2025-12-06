@@ -13,7 +13,8 @@ import {
   getProductsByCategorySubCategory,
   getProductsBySubCategory,
   getLatestProductsByCategory,
-  getSubCategoriesBasedOnCategory
+  getSubCategoriesBasedOnCategory,
+  searchProducts
 } from '../models/productModel.js';
 
 export const productCreate = async (req, res) => {
@@ -172,7 +173,7 @@ export const getProductSubCategories = async (req, res) => {
 }
 
 export const getSubCategoriesByCategory = async (req, res) => {
-  const  category  = req.params.category
+  const category = req.params.category
   try {
     const subCategories = await getSubCategoriesBasedOnCategory(category)
     return res.status(200).json(subCategories)
@@ -205,8 +206,7 @@ export const getDiscountedProducts = async (req, res) => {
       }
     });
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: "Internal server error." });
+    res.status(500).json({ message: e.message });
   }
 };
 
@@ -251,7 +251,31 @@ export const getLatestProducts = async (req, res) => {
       }
     });
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: "Internal server error." });
+    res.status(500).json({ message: e.message });
+  }
+}
+
+export const productSearch = async (req, res) => {
+  const searchTerm = req.query.searchTerm
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  const skip = (page - 1) * limit;
+  try {
+    const { products, totalCount } = await searchProducts(searchTerm, skip, limit)
+    if (products) {
+      return res.status(201).json({
+        data: products,
+        meta: {
+          totalProducts: totalCount,
+          currentPage: page,
+          productsPerPage: limit,
+          totalPages: Math.ceil(totalCount / limit)
+        }
+      })
+    }
+    return res.status(400).json({message: "No Products to Fetch"})
+  } catch (e) {
+    return res.status(500).json({message: e.message})
   }
 }
