@@ -87,6 +87,9 @@ export const getCategories = async () => {
 export const getSubCategories = async () => {
   return await ProductModel.distinct('subCategory')
 }
+export const getSubCategoriesBasedOnCategory = async (category) => {
+  return await ProductModel.distinct('subCategory', {category: category})
+}
 
 export const getProductsWithDiscounts = async (category, skip = 0, limit = 10) => {
   // 1. Define the base query for discounted products

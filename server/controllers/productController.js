@@ -12,7 +12,8 @@ import {
   getSubCategories,
   getProductsByCategorySubCategory,
   getProductsBySubCategory,
-  getLatestProductsByCategory
+  getLatestProductsByCategory,
+  getSubCategoriesBasedOnCategory
 } from '../models/productModel.js';
 
 export const productCreate = async (req, res) => {
@@ -153,21 +154,32 @@ export const getProductsCategorySubCategory = async (req, res) => {
 };
 
 export const getProductCategories = async (req, res) => {
-  const categories = await getCategories();
   try {
-    return res.status(200).json({ message: categories })
+    const categories = await getCategories();
+    return res.status(200).json(categories)
   } catch (e) {
     res.status(500).json({ message: e.message })
   }
 }
 
 export const getProductSubCategories = async (req, res) => {
-  const subCategories = await getSubCategories();
   try {
+    const subCategories = await getSubCategories();
     return res.status(200).json(subCategories)
   } catch (e) {
     res.status(500).json({ message: e.message })
   }
+}
+
+export const getSubCategoriesByCategory = async (req, res) => {
+  const  category  = req.params.category
+  try {
+    const subCategories = await getSubCategoriesBasedOnCategory(category)
+    return res.status(200).json(subCategories)
+  } catch (e) {
+    res.status(500).json({ message: e.message })
+  }
+
 }
 
 

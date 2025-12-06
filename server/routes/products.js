@@ -8,6 +8,7 @@ import {
   getProductsCategorySubCategory,
   getProductsSubCategory,
   getProductSubCategories,
+  getSubCategoriesByCategory,
   productCreate,
   productDelete,
   productsGet,
@@ -27,5 +28,6 @@ router.get('/categories', getProductCategories);
 router.get('/subcategories', getProductSubCategories);
 router.get('/deals', getDiscountedProducts);
 router.get('/latest/:category', getLatestProducts);
+router.get('/:category/subcategories', getSubCategoriesByCategory);
 
 export default router;
