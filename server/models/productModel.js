@@ -18,7 +18,10 @@ export const findProductBySlug = async (slug) => {
 };
 
 export const createProduct = async (product) => {
-  const title = product;
+  if (!product || !product.title) {
+    throw new Error('Product object or title is missing.');
+  }
+  const title = product.title;
   const existingProduct = await ProductModel.findOne({ title });
   if (existingProduct) {
     return null;
@@ -27,8 +30,14 @@ export const createProduct = async (product) => {
   return newProduct;
 };
 
-export const getProducts = async () => {
-  return await ProductModel.find({});
+export const getProducts = async (
+  sortBy = 'createdAt',
+  sortOrder = 'desc'
+) => {
+  const sortDirection = sortOrder === 'asc' ? 1 : -1;
+  const sortObject = {};
+  sortObject[sortBy] = sortDirection;
+  return await ProductModel.find({}).sort(sortObject);
 };
 
 export const updateProduct = async (productId, updatedFields) => {
@@ -51,19 +60,26 @@ export const deleteProduct = async (productId) => {
   await ProductModel.findByIdAndDelete(productId);
 };
 
-export const getProductsByCategory = async (category, skip = 0, limit = 15) => {
-  const products = await ProductModel.find({ category: category }).skip(skip).limit(limit)
+export const getProductsByCategory = async (category, skip = 0, limit = 15, sortBy = 'createdAt', sortOrder = 'desc') => {
+  const sortDirection = sortOrder === 'asc' ? 1 : -1;
+  const sortObject = {};
+  sortObject[sortBy] = sortDirection;
+  const products = (await ProductModel.find({ category: category }).skip(skip).limit(limit)).sort(sortObject)
   const totalCount = await ProductModel.countDocuments({ category: category })
 
   return { products, totalCount };
 };
-export const getProductsByCategorySubCategory = async (category, subCategory, skip = 0, limit = 15) => {
+export const getProductsByCategorySubCategory = async (category, subCategory, skip = 0, limit = 15, sortBy = 'createdAt', sortOrder = 'desc') => {
+  const sortDirection = sortOrder === 'asc' ? 1 : -1;
+  const sortObject = {};
+  sortObject[sortBy] = sortDirection;
   const products = await ProductModel.find({
     category: category,
     subCategory: subCategory
   })
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .sort(sortObject);
 
   const totalCount = await ProductModel.countDocuments({
     category: category,
@@ -72,8 +88,11 @@ export const getProductsByCategorySubCategory = async (category, subCategory, sk
 
   return { products, totalCount };
 };
-export const getProductsBySubCategory = async (subCategory, skip = 0, limit = 15) => {
-  const products = await ProductModel.find({ subCategory: subCategory }).skip(skip).limit(limit);
+export const getProductsBySubCategory = async (subCategory, skip = 0, limit = 15, sortBy = 'createdAt', sortOrder = 'desc') => {
+  const sortDirection = sortOrder === 'asc' ? 1 : -1;
+  const sortObject = {}
+  sortObject[sortBy] = sortDirection
+  const products = await ProductModel.find({ subCategory: subCategory }).skip(skip).limit(limit).sort(sortObject);
   const totalCount = await ProductModel.countDocuments({ subCategory: subCategory })
 
   return { products, totalCount }
@@ -87,10 +106,10 @@ export const getSubCategories = async () => {
   return await ProductModel.distinct('subCategory')
 }
 export const getSubCategoriesBasedOnCategory = async (category) => {
-  return await ProductModel.distinct('subCategory', {category: category})
+  return await ProductModel.distinct('subCategory', { category: category })
 }
 
-export const getProductsWithDiscounts = async (category, skip = 0, limit = 10) => {
+export const getProductsWithDiscounts = async (category, skip = 0, limit = 10, sortBy = 'createdAt', sortOrder = 'desc') => {
   const query = {
     available: true,
     category: category,
@@ -98,10 +117,14 @@ export const getProductsWithDiscounts = async (category, skip = 0, limit = 10) =
       $gt: ["$markedPrice", "$salePrice"]
     }
   };
+  const sortDirection = sortOrder === 'asc' ? 1 : -1;
+  const sortObject = {};
+  sortObject[sortBy] = sortDirection;
 
   const products = await ProductModel.find(query)
-    .skip(skip)   
-    .limit(limit);
+    .skip(skip)
+    .limit(limit)
+    .sort(sortObject);
 
   const totalCount = await ProductModel.countDocuments(query);
 
@@ -127,7 +150,7 @@ export const getLatestProductsByCategory = async (category, skip = 0, limit = 10
 }
 
 export const searchProducts = async (searchTerm, skip = 0, limit = 10) => {
-  const regex = new RegExp(searchTerm, "i"); 
+  const regex = new RegExp(searchTerm, "i");
   const query = {
     $or: [
       { title: { $regex: regex } },

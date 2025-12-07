@@ -37,8 +37,12 @@ export const productCreate = async (req, res) => {
 };
 
 export const productsGet = async (req, res) => {
+  const {
+    sortBy = 'createdAt', // Default field to sort by
+    sortOrder = 'desc',   // Default direction ('asc' or 'desc')
+  } = req.query;
   try {
-    const products = await getProducts();
+    const products = await getProducts(sortBy, sortOrder);
     if (products) {
       return res.status(200).json(products);
     }
@@ -85,6 +89,8 @@ export const getProductsCategory = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
+  const sortBy = req.query.sortBy || 'createdAt'
+  const sortOrder = req.query.sortOrder || 'desc'
   try {
     const { products, totalCount } = await getProductsByCategory(category, skip, limit);
     if (products) {
@@ -109,8 +115,10 @@ export const getProductsSubCategory = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
+    const sortBy = req.query.sortBy || 'createdAt'
+  const sortOrder = req.query.sortOrder || 'desc'
   try {
-    const { products, totalCount } = await getProductsBySubCategory(subCategory, skip, limit);
+    const { products, totalCount } = await getProductsBySubCategory(subCategory, skip, limit, sortBy, sortOrder);
     if (products) {
       return res.status(200).json({
         data: products,
@@ -134,9 +142,11 @@ export const getProductsCategorySubCategory = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
+    const sortBy = req.query.sortBy || 'createdAt'
+  const sortOrder = req.query.sortOrder || 'desc'
 
   try {
-    const { products, totalCount } = await getProductsByCategorySubCategory(category, subCategory, skip, limit);
+    const { products, totalCount } = await getProductsByCategorySubCategory(category, subCategory, skip, limit, sortBy, sortOrder);
     if (products) {
       return res.status(200).json({
         data: products,
@@ -190,12 +200,14 @@ export const getDiscountedProducts = async (req, res) => {
   const limit = parseInt(req.query.limit) || 10;
 
   const skip = (page - 1) * limit;
+    const sortBy = req.query.sortBy || 'createdAt'
+  const sortOrder = req.query.sortOrder || 'desc'
 
   if (!category) {
     return res.status(400).json({ message: "Category query parameter is required." });
   }
   try {
-    const { products, totalCount } = await getProductsWithDiscounts(category, skip, limit);
+    const { products, totalCount } = await getProductsWithDiscounts(category, skip, limit, sortBy, sortOrder);
     return res.status(200).json({
       data: products,
       meta: {
@@ -274,8 +286,8 @@ export const productSearch = async (req, res) => {
         }
       })
     }
-    return res.status(400).json({message: "No Products to Fetch"})
+    return res.status(400).json({ message: "No Products to Fetch" })
   } catch (e) {
-    return res.status(500).json({message: e.message})
+    return res.status(500).json({ message: e.message })
   }
 }
