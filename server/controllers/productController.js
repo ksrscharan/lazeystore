@@ -72,7 +72,7 @@ export const productUpdate = async (req, res) => {
 
 export const productDelete = async (req, res) => {
   try {
-    const id = req.body;
+    const { id } = req.body;
     const existingProduct = await findProductById(id);
     if (!existingProduct) {
       return res.status(400).json({ message: `No Product with ID: ${id}` });
@@ -92,7 +92,7 @@ export const getProductsCategory = async (req, res) => {
   const sortBy = req.query.sortBy || 'createdAt'
   const sortOrder = req.query.sortOrder || 'desc'
   try {
-    const { products, totalCount } = await getProductsByCategory(category, skip, limit);
+    const { products, totalCount } = await getProductsByCategory(category, skip, limit, sortBy, sortOrder);
     if (products) {
       return res.status(200).json({
         data: products,
@@ -115,7 +115,7 @@ export const getProductsSubCategory = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
-    const sortBy = req.query.sortBy || 'createdAt'
+  const sortBy = req.query.sortBy || 'createdAt'
   const sortOrder = req.query.sortOrder || 'desc'
   try {
     const { products, totalCount } = await getProductsBySubCategory(subCategory, skip, limit, sortBy, sortOrder);
@@ -142,7 +142,7 @@ export const getProductsCategorySubCategory = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
-    const sortBy = req.query.sortBy || 'createdAt'
+  const sortBy = req.query.sortBy || 'createdAt'
   const sortOrder = req.query.sortOrder || 'desc'
 
   try {
@@ -200,7 +200,7 @@ export const getDiscountedProducts = async (req, res) => {
   const limit = parseInt(req.query.limit) || 10;
 
   const skip = (page - 1) * limit;
-    const sortBy = req.query.sortBy || 'createdAt'
+  const sortBy = req.query.sortBy || 'createdAt'
   const sortOrder = req.query.sortOrder || 'desc'
 
   if (!category) {
@@ -224,7 +224,10 @@ export const getDiscountedProducts = async (req, res) => {
 
 
 export const getProductDetailsBySlug = async (req, res) => {
-  const slug = req.body
+  const { slug } = req.body
+  if (!slug) {
+    return res.status(400).json({ message: 'Slug is required.' });
+  }
   const product = await findProductBySlug(slug);
   try {
     return res.status(200).json(product)
@@ -233,7 +236,7 @@ export const getProductDetailsBySlug = async (req, res) => {
   }
 }
 export const getProductDetailsById = async (req, res) => {
-  const id = req.body
+  const {id} = req.body
   const product = await findProductById(id);
   try {
     return res.status(200).json(product)
@@ -249,7 +252,7 @@ export const getLatestProducts = async (req, res) => {
 
   const skip = (page - 1) * limit;
   if (!category) {
-    return res.status(400).json({ message: "Category query parameter is required." });
+    return res.status(400).json({ message: "Category parameter is required." });
   }
   try {
     const { products, totalCount } = await getLatestProductsByCategory(category, skip, limit)

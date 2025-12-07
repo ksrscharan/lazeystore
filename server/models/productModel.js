@@ -18,9 +18,6 @@ export const findProductBySlug = async (slug) => {
 };
 
 export const createProduct = async (product) => {
-  if (!product || !product.title) {
-    throw new Error('Product object or title is missing.');
-  }
   const title = product.title;
   const existingProduct = await ProductModel.findOne({ title });
   if (existingProduct) {
@@ -53,6 +50,7 @@ export const updateProduct = async (productId, updatedFields) => {
     return updatedProduct;
   } catch (e) {
     console.log(`error updating: ${e}`);
+    throw e
   }
 };
 
@@ -143,7 +141,7 @@ export const getLatestProductsByCategory = async (category, skip = 0, limit = 10
     }
 
   }
-  const products = await ProductModel.find(query).skip(skip).limit(limit);
+  const products = await ProductModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit);
   const totalCount = await ProductModel.countDocuments(query)
 
   return { products, totalCount }
