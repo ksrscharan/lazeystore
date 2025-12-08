@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import bakImage from '../../assets/loginbg.png';
+import bakImage from '../../assets/loginbg.webp';
 import { BasicButton } from '../../components/buttons/Buttons';
 import Link from '../../components/links/Link';
 import Navbar from '../../components/navbar/Navbar';

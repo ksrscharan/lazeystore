@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import signupBg from '../../assets/signupbg.jpg';
+import signupBg from '../../assets/signupbg.webp';
 import { BasicButton } from '../../components/buttons/Buttons';
 import Link from '../../components/links/Link';
 import Navbar from '../../components/navbar/Navbar';

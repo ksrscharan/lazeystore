@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import elecBG from '../../assets/elecBG.png';
-import welcomeImg from '../../assets/lazeystore-welcome.png';
+import elecBG from '../../assets/elecBG.webp';
+import welcomeImg from '../../assets/lazeystore-welcome.webp';
 import Navbar from '../../components/navbar/Navbar';
 import { setProducts } from '../../redux/reducers/productsSlice';
 
