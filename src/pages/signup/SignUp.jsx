@@ -1,47 +1,57 @@
 import { Box, Flex, Input, PasswordInput, Text } from '@mantine/core';
+import { IconExclamationCircle } from '@tabler/icons-react';
+import axios from 'axios';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import signupBg from '../../assets/signupbg.jpg';
-import { BasicButton } from '../../components/Buttons';
-import Link from '../../components/Link';
+import { BasicButton } from '../../components/buttons/Buttons';
+import Link from '../../components/links/Link';
 import Navbar from '../../components/navbar/Navbar';
-import axios from 'axios';
-import { setEmail, setName, setPassword } from "../../redux/reducers/signupFormSlice"
-import { setAccessToken } from "../../redux/reducers/accessTokenSlice"
-import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { IconExclamationCircle } from '@tabler/icons-react';
+import { setAccessToken } from '../../redux/reducers/accessTokenSlice';
+import {
+  setEmail,
+  setName,
+  setPassword,
+} from '../../redux/reducers/signupFormSlice';
 
 function SignUp() {
-  const dispatch = useDispatch()
-  const { token } = useSelector(state => state.accessToken)
-  const [signupError, setSignupError] = useState()
-  const navigate = useNavigate()
-  const [mailValid, setMailValid] = useState(true)
-  const { name, email, password } = useSelector(state => state.signupForm)
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.accessToken);
+  const [signupError, setSignupError] = useState();
+  const navigate = useNavigate();
+  const [mailValid, setMailValid] = useState(true);
+  const { email, name, password } = useSelector((state) => state.signupForm);
 
   const emailIsValid = (email) => {
     const regex = /^\S+@\S+\.\S+$/;
     return regex.test(email);
-  }
-
+  };
 
   const handleSignUp = (name, email, password) => {
-    axios.post("http://localhost:3000/auth/signup", {
-      name: name,
-      email: email,
-      password: password
-    }, {
-      withCredentials: true,
-    }).then(res => {
-      dispatch(setAccessToken(res.data.accessToken))
-      setSignupError(null);
-      navigate('/')
-    }).catch(e => {
-      console.log(e.response.data.message)
-      setSignupError(e.response.data.message)
-    })
-  }
+    axios
+      .post(
+        'http://localhost:3000/auth/signup',
+        {
+          email: email,
+          name: name,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        dispatch(setAccessToken(res.data.accessToken));
+        setSignupError(null);
+        navigate('/');
+      })
+      .catch((e) => {
+        console.log(e.response.data.message);
+        setSignupError(e.response.data.message);
+      });
+  };
 
   return (
     <>
@@ -54,8 +64,8 @@ function SignUp() {
             sm: 'column',
             md: 'row',
             lg: 'row',
-            xl: 'row',
-          }}
+            xl: 'row'
+}}
           gutter={0}
           style={{ flexGrow: 1 }}
         >
@@ -65,7 +75,9 @@ function SignUp() {
               xs: '200px',
               sm: '200px',
               md: '100%',
-            }}
+              lg: '',
+              xl: ''
+}}
             style={{
               backgroundImage: `url(${signupBg})`,
               backgroundRepeat: 'no-repeat',
@@ -76,8 +88,8 @@ function SignUp() {
               sm: '100%',
               md: '50%',
               lg: '40%',
-              xl: '40%',
-            }}
+              xl: '40%'
+}}
           >
             <Flex
               align="center"
@@ -87,8 +99,9 @@ function SignUp() {
                 xs: '200px',
                 sm: '200px',
                 md: '100%',
-              }}
-
+                lg: '',
+                xl: ''
+}}
               p="xl"
               style={{
                 backgroundImage: `url(${signupBg})`,
@@ -102,7 +115,7 @@ function SignUp() {
               <Text fw={500} size="lg" ta={'center'}>
                 Get started in seconds. Find amazing deals and shop with ease!
               </Text>
-              { }
+              {}
             </Flex>
           </Box>
 
@@ -111,17 +124,26 @@ function SignUp() {
             className="login-box2"
             justify={'center'}
             mih={{
+              xs: '',
+              sm: '',
               md: '100%',
-              sxs: '400px',
-            }}
-            p={{ md: 'none', xs: 'lg' }}
+              lg: '',
+              xl: ''
+}}
+            p={{
+              xs: 'lg',
+              sm: '',
+              md: 'none',
+              lg: '',
+              xl: ''
+}}
             w={{
               xs: '100%',
               sm: '100%',
               md: '50%',
               lg: '60%',
-              xl: '60%',
-            }}
+              xl: '60%'
+}}
           >
             <Box
               mih={'30%'}
@@ -129,51 +151,55 @@ function SignUp() {
                 xs: '90%',
                 sm: '60%',
                 md: '70%',
-                xl: '40%',
-              }}
+                lg: '70%',
+                xl: '40%'
+}}
             >
               <Flex direction={'column'} h={'100%'} justify={'space-evenly'}>
                 <Flex direction={'column'} gap={'lg'}>
                   <Input.Wrapper label="Name" required>
                     <Input
+                      error={signupError ? true : false}
+                      onChange={(e) => {
+                        dispatch(setName(e.target.value));
+                        setSignupError(null);
+                      }}
                       placeholder="Enter Your Name"
                       size="md"
                       type="text"
-                      onChange={e => {
-                        dispatch(setName(e.target.value))
-                        setSignupError(null)
-                      }}
-                      error={signupError ? true : false}
                     />
                   </Input.Wrapper>
                   <Input.Wrapper label="E-mail" required>
-                    <Input placeholder="Email Here" size="md" type="email" onChange={e => {
-                      dispatch(setEmail(e.target.value))
-                      setSignupError(null)
-                    }} error={(signupError || !mailValid)}
+                    <Input
+                      error={signupError || !mailValid}
                       onBlur={() => {
-                        setMailValid(emailIsValid(email))
+                        setMailValid(emailIsValid(email));
                       }}
-                      rightSection={(!mailValid) ?
-                        <IconExclamationCircle
-                          size={20}
-                        /> : false
-                      }
+                      onChange={(e) => {
+                        dispatch(setEmail(e.target.value));
+                        setSignupError(null);
+                      }}
                       onFocus={() => {
-                        setMailValid(true)
+                        setMailValid(true);
                       }}
+                      placeholder="Email Here"
+                      rightSection={
+                        !mailValid ? <IconExclamationCircle size={20} /> : false
+                      }
+                      size="md"
+                      type="email"
                     />
                   </Input.Wrapper>
                   <PasswordInput
+                    error={signupError ? signupError : false}
                     label="Password"
+                    onChange={(e) => {
+                      dispatch(setPassword(e.target.value));
+                      setSignupError(null);
+                    }}
                     placeholder="Password Here"
                     required
                     size="md"
-                    onChange={e => {
-                      dispatch(setPassword(e.target.value))
-                      setSignupError(null)
-                    }}
-                    error={signupError ? signupError : false}
                   />
                 </Flex>
                 <Flex
@@ -185,16 +211,21 @@ function SignUp() {
                   <Text size="sm">
                     Have an account? <Link to={'/login'}>Log In</Link>
                   </Text>
-                  <BasicButton size="md" disabled={!(name && (email && mailValid) && password)} onClick={() => {
-                    handleSignUp(name, email, password)
-
-                  }}>Sign Up</BasicButton>
+                  <BasicButton
+                    disabled={!(name && email && mailValid && password)}
+                    onClick={() => {
+                      handleSignUp(name, email, password);
+                    }}
+                    size="md"
+                  >
+                    Sign Up
+                  </BasicButton>
                 </Flex>
               </Flex>
             </Box>
           </Flex>
-        </Flex >
-      </Flex >
+        </Flex>
+      </Flex>
     </>
   );
 }

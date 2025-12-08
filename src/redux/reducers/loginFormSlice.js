@@ -13,9 +13,8 @@ const loginFormSlice = createSlice({
     setPassword: (state, action) => {
       state.password = action.payload;
     },
-    
   },
 });
 
-export const { setPassword, setEmail } = loginFormSlice.actions;
+export const { setEmail, setPassword } = loginFormSlice.actions;
 export default loginFormSlice.reducer;
