@@ -61,6 +61,9 @@ export const productUpdate = async (req, res) => {
     if (!existingProduct) {
       return res.status(400).json({ message: `No Product with ID: ${id}` });
     }
+    if (!updateFields || Object.keys(updateFields).length === 0) {
+      return res.status(400).json({ message: 'Update fields are required.' });
+    }
     await updateProduct(id, updateFields);
     return res.status(201).json({ message: 'Updated Successfully' });
   } catch (e) {
@@ -224,7 +227,7 @@ export const getDiscountedProducts = async (req, res) => {
 
 
 export const getProductDetailsBySlug = async (req, res) => {
-  const { slug } = req.body
+  const { slug } = req.params
   if (!slug) {
     return res.status(400).json({ message: 'Slug is required.' });
   }
@@ -236,7 +239,7 @@ export const getProductDetailsBySlug = async (req, res) => {
   }
 }
 export const getProductDetailsById = async (req, res) => {
-  const { id } = req.body
+  const { id } = req.params
   if (!id) {
     return res.status(400).json({ message: "Product ID is required." });
   }
@@ -246,7 +249,7 @@ export const getProductDetailsById = async (req, res) => {
   } catch (e) {
     return res.status(500).json({ message: e.message })
   }
-} 
+}
 
 export const getLatestProducts = async (req, res) => {
   const category = req.params.category

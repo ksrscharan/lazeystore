@@ -38,20 +38,15 @@ export const getProducts = async (
 };
 
 export const updateProduct = async (productId, updatedFields) => {
-  try {
-    const filter = { _id: productId };
-    const update = { $set: updatedFields };
-    const options = { new: true };
-    const updatedProduct = await ProductModel.findOneAndUpdate(
-      filter,
-      update,
-      options
-    );
-    return updatedProduct;
-  } catch (e) {
-    console.log(`error updating: ${e}`);
-    throw e
-  }
+  const filter = { _id: productId };
+  const update = { $set: updatedFields };
+  const options = { new: true };
+  const updatedProduct = await ProductModel.findOneAndUpdate(
+    filter,
+    update,
+    options
+  );
+  return updatedProduct;
 };
 
 export const deleteProduct = async (productId) => {

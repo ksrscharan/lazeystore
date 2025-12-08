@@ -14,8 +14,10 @@ import {
   productsGet,
   productUpdate,
   productSearch,
+  getProductDetailsById,
+  getProductDetailsBySlug
 } from '../controllers/productController.js';
-import {authorizeAdmin} from '../middleware/adminAuthorization.js'
+import { authorizeAdmin } from '../middleware/adminAuthorization.js'
 
 const router = express.Router();
 router.post('/create', authorizeAdmin, productCreate);
@@ -31,5 +33,7 @@ router.get('/deals', getDiscountedProducts);
 router.get('/latest/:category', getLatestProducts);
 router.get('/:category/subcategories', getSubCategoriesByCategory);
 router.get('/search', productSearch);
+router.get('/details/slug/:slug', getProductDetailsBySlug); 
+router.get('/details/id/:id', getProductDetailsById);     
 
 export default router;
