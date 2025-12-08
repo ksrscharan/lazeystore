@@ -236,14 +236,17 @@ export const getProductDetailsBySlug = async (req, res) => {
   }
 }
 export const getProductDetailsById = async (req, res) => {
-  const {id} = req.body
+  const { id } = req.body
+  if (!id) {
+    return res.status(400).json({ message: "Product ID is required." });
+  }
   const product = await findProductById(id);
   try {
     return res.status(200).json(product)
   } catch (e) {
     return res.status(500).json({ message: e.message })
   }
-}
+} 
 
 export const getLatestProducts = async (req, res) => {
   const category = req.params.category
@@ -279,7 +282,7 @@ export const productSearch = async (req, res) => {
   try {
     const { products, totalCount } = await searchProducts(searchTerm, skip, limit)
     if (products) {
-      return res.status(201).json({
+      return res.status(200).json({
         data: products,
         meta: {
           totalProducts: totalCount,

@@ -62,7 +62,10 @@ export const getProductsByCategory = async (category, skip = 0, limit = 15, sort
   const sortDirection = sortOrder === 'asc' ? 1 : -1;
   const sortObject = {};
   sortObject[sortBy] = sortDirection;
-  const products = (await ProductModel.find({ category: category }).skip(skip).limit(limit)).sort(sortObject)
+  const products = await ProductModel.find({ category: category })
+    .skip(skip)
+    .limit(limit)
+    .sort(sortObject)
   const totalCount = await ProductModel.countDocuments({ category: category })
 
   return { products, totalCount };
