@@ -4,23 +4,28 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "lint": "npx prettier --write . && npx eslint . --fix",
+    "lint": "npx eslint . --fix && npx prettier --write .",
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
     "start": "concurrently \"npm run dev\" \"cd ./server && npm run dev\""
   },
   "dependencies": {
-    "@mantine/core": "^8.3.5",
-    "@mantine/hooks": "^8.3.5",
+    "@mantine/carousel": "^8.3.10",
+    "@mantine/core": "^8.3.9",
+    "@mantine/hooks": "^8.3.9",
     "@reduxjs/toolkit": "^2.10.1",
     "@tabler/icons-react": "^3.35.0",
     "axios": "^1.13.2",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "firebase": "^12.5.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.9.5"
+    "react-router-dom": "^7.9.5",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@eslint/compat": "^2.0.0",

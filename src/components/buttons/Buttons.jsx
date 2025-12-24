@@ -24,9 +24,9 @@ function GradientButton({
   );
 }
 
-function OutlineButton({ children }) {
+function OutlineButton({ children, ...props }) {
   return (
-    <Button color="green.0" variant="outline">
+    <Button {...props} color="green.0" variant="outline">
       <Text>{children}</Text>
     </Button>
   );

@@ -1,0 +1,1 @@
+export const slantLineThrough = 'linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%)'

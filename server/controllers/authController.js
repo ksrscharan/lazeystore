@@ -53,7 +53,7 @@ export const login = async (req, res) => {
 
 export const signup = async (req, res) => {
   try {
-    const { email, name, password } = req.body;
+    const { email, firstName, lastName, password, role } = req.body;
 
     if (await findUserByEmail(email)) {
       return res.status(400).json({ message: 'User already exists' });
@@ -62,17 +62,18 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await createUser({
       email,
-      id: Date.now().toString(),
-      name,
+      firstName,
+      lastName,
       password: hashedPassword,
+      role
     });
     const refreshToken = jwt.sign(
-      { email: user.email, id: user.id },
+      { email: user.email, id: user.id, role: user.role },
       process.env.JWT_REFRESH_SECRET,
       { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN }
     );
     const accessToken = jwt.sign(
-      { email: user.email, id: user.id },
+      { email: user.email, id: user.id, role: user.role },
       process.env.JWT_ACCESS_SECRET,
       { expiresIn: process.env.JWT_ACCESS_EXPIRES_IN }
     );
@@ -83,6 +84,7 @@ export const signup = async (req, res) => {
       sameSite: 'strict',
       secure: process.env.NODE_ENV === 'production',
     });
+    console.log(user)
     return res.status(201).json({
       accessToken,
       message: 'User created successfully',
