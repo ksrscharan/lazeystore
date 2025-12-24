@@ -31,7 +31,6 @@ export const getNewAccessToken = (dispatch) => {
         })
         .then((res) => {
             dispatch(setAccessToken(res.data.accessToken));
-            // navigate('/');
         })
         .catch((e) => {
             console.log('Silent refresh failed:', e.message);

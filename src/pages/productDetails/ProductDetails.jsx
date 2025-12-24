@@ -87,7 +87,6 @@ function ProductDetails() {
               console.log(e.target.value)
               setUserReview({ ...userReview, reviewTitle: e.target.value })
               }}
-              // label={`Write your Experience with ${product?.title}`}
               description="Your review will be visible to everyone. Use appropriate language."
             placeholder='Review Title'
           />

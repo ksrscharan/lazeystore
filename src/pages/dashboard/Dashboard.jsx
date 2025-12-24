@@ -13,7 +13,6 @@ function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const categories = useSelector(state => state.products.categories)
-  // const subCategories = useSelector(state => state.products.subCategories)
 
 
 

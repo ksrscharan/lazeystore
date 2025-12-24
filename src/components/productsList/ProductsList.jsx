@@ -46,29 +46,7 @@ function ProductsList({ collectionKey, endpoint, params }) {
         }
     }, [page, limit, sortBy, sortOrder])
 
-    // useEffect(() => {
-        // console.log(page);
-        // if (page === null && limit === null && sortBy === null && sortOrder === null) {
-        //     searchParams.set('page', "1")
-        //     searchParams.set('limit', "10")
-        //     searchParams.set('sortBy', "createdAt")
-        //     searchParams.set('sortOrder', "desc")
-        //     setSearchParams(searchParams)
-        // }
-        // if (limit === null) {
-        //     searchParams.set('limit', "10")
-        // }
-        // if (sortBy === null) {
-        //     searchParams.set('sortBy', "createdAt")
-        // }
-        // if (sortOrder === null) {
-        //     searchParams.set('sortOrder', "desc")
-        // }
-        //     setSearchParams(searchParams)
-
-    // }, [page, limit, sortBy, sortOrder])
     const handleSortByChange = (e) => {
-        // console.log(e);
         switch (e) {
             case "Title":
                 searchParams.set("sortBy", "title")

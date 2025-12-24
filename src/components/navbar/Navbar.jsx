@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import lazeystoreImg from '../../assets/lazeystore.svg';
 import Link from '../links/Link';
 import Search from '../search/Search';
-// import { fetchCategoriesSubCategories } from '../../redux/thunk/products';
 import { useEffect } from 'react';
 import { handleLogout } from '../../redux/thunk/account'
 import NavMenu from './NavMenu';
@@ -17,12 +16,6 @@ function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = useSelector((state) => state.accessToken.token);
-  const { products, categories, subCategories } = useSelector((state) => state.products);
-
-
-  useEffect(() => {
-    // fetchCategoriesSubCategories(dispatch);
-  }, []);
 
   return (
     <Flex

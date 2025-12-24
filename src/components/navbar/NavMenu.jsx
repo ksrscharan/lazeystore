@@ -1,13 +1,19 @@
 import { Menu, Text } from '@mantine/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { OutlineButton } from '../buttons/Buttons'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IconCategory } from '@tabler/icons-react';
+import { fetchNavigationData } from '../../redux/thunk/products';
 
 function NavMenu() {
     const { categories, subCategories } = useSelector((state) => state.products);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchNavigationData())
+    }, [])
 
     return (
         <Menu >

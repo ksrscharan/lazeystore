@@ -1,5 +1,5 @@
 import { Badge, Box, Flex, Image, Rating, ScrollArea, Text } from '@mantine/core';
-import { IconArrowBadgeRight, IconCurrencyRupee } from '@tabler/icons-react';
+import { IconArrowBadgeRight } from '@tabler/icons-react';
 import { slantLineThrough } from '../../helpers/variables';
 
 function ProductListCards({ products, navigate }) {
@@ -22,17 +22,11 @@ function ProductListCards({ products, navigate }) {
                 >
                     <Flex gap={'sm'} justify={'space-evenly'}>
                         <Image
-                            src={'https://rukminim2.flixcart.com/image/612/612/xif0q/headphone/d/u/0/nb121-pods-upto-40-hours-playtime-type-c-fast-charging-dual-original-imahh4a72k7jbk2h.jpeg?q=70'}
-                            visibleFrom="lg"
-                            w={'100px'}
-                            loading='lazy'
-                        />
-                        {/* <Image
                                 src={product.imageUrl[0]}
                                 visibleFrom="lg"
                                 w={'10%'}
                                 loading='lazy'
-                                /> */}
+                                />
                         <Box w={'60%'}>
                             <Flex align={'center'}>
                                 <Badge
@@ -74,7 +68,7 @@ function ProductListCards({ products, navigate }) {
                                 value={
                                     product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length
                                 }
-                                fractions={2} // Mantine Rating supports partial stars
+                                fractions={2}
                             />}
                         </Box>
                         <Box w={'20%'}>
@@ -88,7 +82,6 @@ function ProductListCards({ products, navigate }) {
                                 <Flex>
 
                                     <Text component='div' c={'green.0'} size="lg" ta={'center'}>
-                                        {/* <IconCurrencyRupee /> */}
                                         LazeyStore: ₹ {product?.salePrice}
                                     </Text>
                                 </Flex>
