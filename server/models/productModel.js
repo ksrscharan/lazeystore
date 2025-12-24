@@ -27,14 +27,16 @@ export const createProduct = async (product) => {
   return newProduct;
 };
 
-export const getProducts = async (
-  sortBy = 'createdAt',
-  sortOrder = 'desc'
-) => {
+export const getProducts = async (skip = 0, limit = 15, sortBy = 'createdAt', sortOrder = 'desc') => {
   const sortDirection = sortOrder === 'asc' ? 1 : -1;
   const sortObject = {};
   sortObject[sortBy] = sortDirection;
-  return await ProductModel.find({}).sort(sortObject);
+  const products = await ProductModel.find({})
+    .skip(skip)
+    .limit(limit)
+    .sort(sortObject);
+  const totalCount = await ProductModel.countDocuments({})
+  return {products, totalCount}
 };
 
 export const updateProduct = async (productId, updatedFields) => {

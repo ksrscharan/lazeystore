@@ -19,7 +19,7 @@ const lightTheme = createTheme({
     Input: {
       styles: {
         input: {
-          '&:focus-within': {
+          '&:focusWithin': {
             borderColor: 'var(--mantine-color-black)',
             outline: '2px solid var(--mantine-color-blue-5)',
           },
@@ -45,7 +45,7 @@ const darkTheme = createTheme({
     Input: {
       styles: {
         input: {
-          '&:focus-within': {
+          '&:focusWithin': {
             borderColor: 'var(--mantine-color-black)',
             outline: '2px solid var(--mantine-color-blue-5)',
           },

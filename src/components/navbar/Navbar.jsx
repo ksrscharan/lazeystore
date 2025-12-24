@@ -1,47 +1,28 @@
-import './navbar.css';
 
-import { Box, Flex, Group, Image } from '@mantine/core';
-import { IconMoonStars, IconSun } from '@tabler/icons-react';
-import axios from 'axios';
+import { Avatar, Box, Flex, Group, Image, Menu, Text } from '@mantine/core';
+import { IconLogin2, IconLogout2, IconShoppingBagHeart, IconShoppingCart } from '@tabler/icons-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import lazeystoreImg from '../../assets/lazeystore.svg';
-import { setAccessToken } from '../../redux/reducers/accessTokenSlice';
-import { toggleTheme } from '../../redux/reducers/themeSlice';
-import { BasicButton } from '../buttons/Buttons';
 import Link from '../links/Link';
 import Search from '../search/Search';
+// import { fetchCategoriesSubCategories } from '../../redux/thunk/products';
+import { useEffect } from 'react';
+import { handleLogout } from '../../redux/thunk/account'
+import NavMenu from './NavMenu';
+import ColorToggle from './ColorToggle';
 
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const mode = useSelector((state) => state.theme.mode);
   const token = useSelector((state) => state.accessToken.token);
+  const { products, categories, subCategories } = useSelector((state) => state.products);
 
-  const handleLogout = () => {
-    axios
-      .post(
-        'http://localhost:3000/auth/logout',
-        {},
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        console.log('Logout successful:', res.data);
 
-        dispatch(setAccessToken(null));
-
-        navigate('/login');
-      })
-      .catch((error) => {
-        console.error('Logout failed or server error:', error.message);
-
-        dispatch(setAccessToken(null));
-        navigate('/login');
-      });
-  };
+  useEffect(() => {
+    // fetchCategoriesSubCategories(dispatch);
+  }, []);
 
   return (
     <Flex
@@ -66,32 +47,35 @@ function Navbar() {
             src={lazeystoreImg}
             style={{ cursor: 'pointer' }}
             w={'150px'}
-            loading='lazy' 
+            loading='lazy'
           />
-          {}
+          { }
           <Box visibleFrom="lg" w={'60%'}>
             <Search />
           </Box>
           <Group>
-            {token === null && <Link to={'/login'}>Log In</Link>}
-            {token !== null && (
-              <BasicButton onClick={handleLogout}>Log Out</BasicButton>
-            )}
+            
+            <NavMenu />
+            
+            <ColorToggle />
+            <Menu>
+              <Menu.Target>
+                <Avatar radius="xl" color='green.0' />
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Label>Account</Menu.Label>
+                {token === null && <Menu.Item leftSection={<IconLogin2 />}><Link to={'/login'}>Log In</Link></Menu.Item>}
+                {token !== null && (
+                  <>
+                    <Menu.Item leftSection={<IconLogout2 />}><Text onClick={() => handleLogout(dispatch, navigate)}>Log Out</Text></Menu.Item>
+                    <Menu.Item leftSection={<IconShoppingCart />}><Text >Cart</Text></Menu.Item>
+                    <Menu.Item leftSection={<IconShoppingBagHeart />}><Text >WishList</Text></Menu.Item>
+                  </>
+                )}
+              </Menu.Dropdown>
+            </Menu>
 
-            <IconMoonStars
-              display={mode == 'light' ? 'inherit' : 'none'}
-              onClick={() => {
-                dispatch(toggleTheme());
-              }}
-              style={{ cursor: 'pointer', transition: 'display 0.5s linear' }}
-            />
-            <IconSun
-              display={mode == 'light' ? 'none' : 'inherit'}
-              onClick={() => {
-                dispatch(toggleTheme());
-              }}
-              style={{ cursor: 'pointer', transition: 'display 0.5s linear' }}
-            />
+
           </Group>
         </Flex>
       </Box>
@@ -102,7 +86,7 @@ function Navbar() {
           md: 'inherit',
           lg: 'none',
           xl: 'none'
-}}
+        }}
         miw={'100%'}
         py={'sm'}
       >

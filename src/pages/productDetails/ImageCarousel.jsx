@@ -22,9 +22,9 @@ function ImageCarousel({ product }) {
           withControls
           withIndicators
         >
-          {product.imageUrl.map((i, ind) => (
+          {product?.imageUrl?.map((i, ind) => (
             <Carousel.Slide key={ind}>
-              <Image loading='lazy' alt={product.title} key={ind} src={i} w={'100%'} />
+              <Image loading='lazy' alt={product?.title} key={ind} src={i} w={'100%'} />
             </Carousel.Slide>
           ))}
         </Carousel>

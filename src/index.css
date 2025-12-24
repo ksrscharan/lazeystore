@@ -6,6 +6,7 @@
   font-style: normal;
 }
 
+
 /* .montserrat-<uniquifier> {
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
@@ -16,4 +17,19 @@
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
+}
+table {
+    border-spacing: 0 !important;
+    border-collapse: collapse !important;
+    border-color: inherit !important;
+    display: block !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    overflow: auto !important;
+}
+
+tbody, td, tfoot, th, thead, tr {
+    border-color: inherit !important;
+    border-style: solid !important;
+    border-width: 2px !important;
 }

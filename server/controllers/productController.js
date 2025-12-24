@@ -37,20 +37,27 @@ export const productCreate = async (req, res) => {
 };
 
 export const productsGet = async (req, res) => {
-  const {
-    sortBy = 'createdAt', // Default field to sort by
-    sortOrder = 'desc',   // Default direction ('asc' or 'desc')
-  } = req.query;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+  const sortBy = req.query.sortBy || 'createdAt'
+  const sortOrder = req.query.sortOrder || 'desc'
   try {
-    const products = await getProducts(sortBy, sortOrder);
+    const { products, totalCount } = await getProducts(skip, limit, sortBy, sortOrder);
     if (products) {
-      return res.status(200).json(products);
+      return res.status(200).json({
+        data: products,
+        meta: {
+          totalProducts: totalCount,
+          currentPage: page,
+          productsPerPage: limit,
+          totalPages: Math.ceil(totalCount / limit)
+        }
+      });
     }
-    return res.status(400).json({ message: 'No Products to fetch' });
+    return res.status(400).json({ message: 'No Products Found!' });
   } catch (e) {
-    return res
-      .status(500)
-      .json({ message: `Couldn't fetch Products ${e.message}` });
+    res.status(500).json({ message: e.message });
   }
 };
 

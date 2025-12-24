@@ -1,6 +1,4 @@
-import { Carousel } from '@mantine/carousel';
-import { Box, Card, Flex, Image, ScrollArea, Text } from '@mantine/core';
-import axios from 'axios';
+import { Box, Flex, Image, ScrollArea, ScrollAreaAutosize } from '@mantine/core';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -8,72 +6,52 @@ import { useNavigate } from 'react-router-dom';
 import elecBG from '../../assets/elecBG.webp';
 import welcomeImg from '../../assets/lazeystore-welcome.webp';
 import Navbar from '../../components/navbar/Navbar';
-import { setProducts } from '../../redux/reducers/productsSlice';
+import DashboardCarousels from '../../components/carousel/DashboardCarousels';
+import { fetchNavigationData } from '../../redux/thunk/products';
 
 function Dashboard() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { products } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+  const categories = useSelector(state => state.products.categories)
+  // const subCategories = useSelector(state => state.products.subCategories)
+
+
 
   useEffect(() => {
-    axios.get('http://localhost:3000/products/get').then((res) => {
-      dispatch(setProducts(res.data));
-    });
+    dispatch(fetchNavigationData())
   }, []);
 
   return (
-    <Flex direction={'column'} gap={'xs'}>
+    <Box h={'100vh'} style={{ overflow: 'hidden' }}>
       <Navbar />
 
-      <Flex align={'center'} justify={'center'} style={{ flexGrow: 1 }}>
-        <Box h={'100%'}>
-          <Image loading='lazy' h={'fit-content'} src={welcomeImg} />
-        </Box>
+      <Flex direction={'column'} gap={'xs'} h={'100%'} style={{ overflow: 'hidden' }}>
+        <ScrollArea type='hover' offsetScrollbars>
+
+          <Flex align={'center'} justify={'center'} style={{ flexGrow: 1 }}>
+            <Box h={'100%'}>
+              <Image loading='lazy' h={'fit-content'} src={welcomeImg} />
+            </Box>
+          </Flex>
+          <DashboardCarousels carouselTitle={'Top Deals for You!'} navigationPath={'/products?page=1&limit=10&sortBy=createdAt&sortOrder=desc'} collectionKey={"All"} endpoint={'http://localhost:3000/products/get'} />
+
+          {
+            categories.map((category, idx) => {
+              return (
+                <DashboardCarousels key={idx} carouselTitle={`Best Products from ${category}!`} navigationPath={`/products/category/${category}`} collectionKey={category} endpoint={`http://localhost:3000/products/category/${category}`} />
+
+              )
+            })
+          }
+          <Flex align={'center'} justify={'center'} style={{ flexGrow: 1 }}>
+            <Box h={'100%'}>
+              <Image loading='lazy' h={'fit-content'} src={elecBG} onClick={() => navigate('/products/category/Electronics')} />
+            </Box>
+          </Flex>
+
+        </ScrollArea>
       </Flex>
-      <Carousel
-        controlSize={27}
-        controlsOffset="xs"
-        emblaOptions={{
-          loop: true,
-        }}
-        height={'100%'}
-        slideGap="md"
-        slideSize={{
-          xs: '40%',
-          sm: '40%',
-          md: '40%',
-          lg: '15%',
-          xl: '15%'
-}}
-        withControls
-      >
-        {products &&
-          products.map((product) => (
-            <Carousel.Slide key={product._id}>
-              <Card
-                onClick={() => {
-                  navigate(`/product/${product._id}`);
-                }}
-                p={0}
-              >
-                <Card.Section>
-                  <Image loading='lazy' src={product.imageUrl[0]} />
-                </Card.Section>
-                <Box py={'sm'}>
-                  <Text size="xs">{product.title}</Text>
-                  <Text size="xl">₹ {product.price}</Text>
-                  <Text size="xs">{product.description}</Text>
-                </Box>
-              </Card>
-            </Carousel.Slide>
-          ))}
-      </Carousel>
-      <Flex align={'center'} justify={'center'} style={{ flexGrow: 1 }}>
-        <Box h={'100%'}>
-          <Image loading='lazy' h={'fit-content'} src={elecBG} />
-        </Box>
-      </Flex>
-    </Flex>
+    </Box>
   );
 }
 

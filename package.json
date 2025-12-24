@@ -11,7 +11,7 @@
     "start": "concurrently \"npm run dev\" \"cd ./server && npm run dev\""
   },
   "dependencies": {
-    "@mantine/carousel": "^8.3.9",
+    "@mantine/carousel": "^8.3.10",
     "@mantine/core": "^8.3.9",
     "@mantine/hooks": "^8.3.9",
     "@reduxjs/toolkit": "^2.10.1",
@@ -24,7 +24,8 @@
     "react-dom": "^19.1.1",
     "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.9.5"
+    "react-router-dom": "^7.9.5",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@eslint/compat": "^2.0.0",

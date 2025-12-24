@@ -1,44 +1,31 @@
 import { Box, CloseButton, Flex, Input, Text } from '@mantine/core';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { setProducts } from '../../redux/reducers/productsSlice';
 import SearchBox from './searchBox';
+import { selectProductsByCollection } from '../../redux/selectors/productsSelector';
+import { fetchListedProducts, fetchNavigationData } from '../../redux/thunk/products';
 
 function Search() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const { products } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { products } = useSelector(selectProductsByCollection("SearchItems"));
+
+  useEffect(()=>{
+
+    dispatch(fetchNavigationData())
+  }, [])
 
   useEffect(() => {
-    axios.get('http://localhost:3000/products/get').then((res) => {
-      dispatch(setProducts(res.data));
-    });
-  }, []);
-  useEffect(() => {
-    if (searchTerm.length >= 3) {
-      const results = products.filter((product) => {
-        return (
-          product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          product.description
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          product.subTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          product.subCategory.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-      });
-      setFilteredProducts(results);
-    } else {
-      setFilteredProducts([]);
-    }
-  }, [searchTerm, products]);
-
-  useEffect(() => {}, [filteredProducts]);
+    if(searchTerm.length>2)
+    dispatch(fetchListedProducts({
+      collectionKey: "SearchItems",
+      endpoint: `http://localhost:3000/products/search?searchTerm=${searchTerm}`,
+      params: { limit: 20, sortBy: 'createdAt', sortOrder: 'asc', }
+    }))
+  }, [searchTerm])
 
   return (
     <Box pos={'relative'} w={'100%'}>
@@ -57,7 +44,7 @@ function Search() {
           }
           rightSectionPointerEvents="all"
           style={{
-            '&:focus-within': {
+            '&: Within': {
               outline: '2px solid var(--mantine-color-blue-5)',
             },
             outline: 'var(--mantine-color-green-0)',
@@ -69,10 +56,10 @@ function Search() {
             md: '90%',
             lg: '60%',
             xl: '60%'
-}}
+          }}
         />
       </Flex>
-      {filteredProducts && searchTerm.length >= 3 && (
+      {products && searchTerm.length >= 3 && (
         <Flex
           bd={'1px solid var(--mantine-color-green-0)'}
           bdrs={'sm'}
@@ -86,7 +73,7 @@ function Search() {
             md: '',
             lg: 0,
             xl: 0
-}}
+          }}
           p="md"
           pos="absolute"
           style={{ overflow: 'hidden', scrollbarWidth: 'thin', zIndex: 3 }}
@@ -97,12 +84,12 @@ function Search() {
             md: '100vw',
             lg: '100%',
             xl: '100%'
-}}
+          }}
         >
-          {}
-          {filteredProducts.length > 0 ? (
+          {products.length > 0 ? (
+
             <SearchBox
-              filteredProducts={filteredProducts}
+              filteredProducts={products}
               navigate={navigate}
               setSearchTerm={setSearchTerm}
             />

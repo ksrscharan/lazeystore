@@ -13,8 +13,8 @@ function SearchBox({ filteredProducts, navigate, setSearchTerm }) {
             key={product.id}
             my={'sm'}
             onClick={() => {
-              navigate(`/product/${product._id}`);
-              setSearchTerm('');
+              navigate(`/product/${product.slug}`);
+              setSearchTerm && setSearchTerm('');
             }}
             p={'sm'}
             style={{ cursor: 'pointer', zIndex: 5 }}
