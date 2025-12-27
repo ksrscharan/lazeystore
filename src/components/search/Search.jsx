@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import SearchBox from './searchBox';
+import SearchBox from './SearchBox.jsx';
 import { selectProductsByCollection } from '../../redux/selectors/productsSelector';
 import { fetchListedProducts, fetchNavigationData } from '../../redux/thunk/products';
 
