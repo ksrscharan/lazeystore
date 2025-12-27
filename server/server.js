@@ -20,6 +20,8 @@ const authLimiter = rateLimit({
 
 const authRouter = await import('./routes/auth.js');
 const productsRouter = await import('./routes/products.js');
+const userRouter = await import('./routes/user.js');
+const userProductRouter = await import('./routes/userProducts.js')
 const app = express();
 const PORT = 3000;
 app.use(cookieParser());
@@ -45,3 +47,5 @@ app.get('/', (req, res) => {
 app.use('/auth', authLimiter, authRouter.default);
 
 app.use('/products', productsRouter.default);
+app.use('/userProducts', userProductRouter.default);
+app.use('/user', userRouter.default);
