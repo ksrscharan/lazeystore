@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "npx eslint . --fix && npx prettier --write .",
     "dev": "vite --host",
-    "build": "vite build --output public",
+    "build": "vite build",
     "preview": "vite preview",
     "start": "concurrently \"npm run dev\" \"cd ./server && npm run dev\""
   },
