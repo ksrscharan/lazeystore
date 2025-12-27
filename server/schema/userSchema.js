@@ -1,5 +1,15 @@
 import mongoose from 'mongoose';
 
+const addressSchema = new mongoose.Schema({
+  houseNumber: String,
+  street: String,
+  landmark: String,
+  area: String,
+  state: String,
+  pincode: String,
+  isDefault: { type: Boolean, default: false }
+}, { _id: true });
+
 export const userSchema = new mongoose.Schema(
   {
     email: {
@@ -39,27 +49,26 @@ export const userSchema = new mongoose.Schema(
       },
     ],
 
-    cart: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Cart',
-    },
-
     wishlist: [
       {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Product',
-      },
-    ],
-
-    addresses: [
-      {
-        street: String,
-        city: String,
-        state: String,
-        pincode: String,
-        isDefault: { type: Boolean, default: false }
+        productId: { type: mongoose.Schema.ObjectId, ref: 'Product' },
+        category: String,
+        subCategory: String,
+        addedAt: { type: Date, default: Date.now }
       }
     ],
+
+    cart: [
+      {
+        productId: { type: mongoose.Schema.ObjectId, ref: 'Product' },
+        category: String,
+        subCategory: String,
+        quantity: { type: Number, default: 1 },
+        addedAt: { type: Date, default: Date.now }
+      }
+    ],
+
+    addresses: [addressSchema],
 
   },
   {

@@ -22,7 +22,7 @@ export const productSchema = new mongoose.Schema({
   metaDescription: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  reviews: [{ user: String, rating: Number, reviewComment: String }]
+  reviews: [{ user: String, rating: Number, reviewTitle: String, reviewComment: String }]
 });
 
 productSchema.pre('save', function (next) {
