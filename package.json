@@ -8,7 +8,7 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "concurrently \"npm run dev\" \"cd ./server && npm run dev\""
+    "start": "concurrently \"npm run dev\" \"cd ./api && npm run dev\""
   },
   "dependencies": {
     "@mantine/carousel": "^8.3.10",
