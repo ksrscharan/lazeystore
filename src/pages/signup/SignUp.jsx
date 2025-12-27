@@ -32,7 +32,7 @@ function SignUp() {
   const handleSignUp = (name, email, password) => {
     axios
       .post(
-        'http://localhost:3000/auth/signup',
+        `${import.meta.env.VITE_API_BASE_URL}/auth/signup`,
         {
           email: email,
           name: name,

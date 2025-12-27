@@ -22,7 +22,7 @@ function Search() {
     if(searchTerm.length>2)
     dispatch(fetchListedProducts({
       collectionKey: "SearchItems",
-      endpoint: `http://localhost:3000/products/search?searchTerm=${searchTerm}`,
+      endpoint: `${import.meta.env.VITE_API_BASE_URL}/products/search?searchTerm=${searchTerm}`,
       params: { limit: 20, sortBy: 'createdAt', sortOrder: 'asc', }
     }))
   }, [searchTerm])
