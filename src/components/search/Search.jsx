@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import SearchBox from './searchBox';
-import { selectProductsByCollection } from '../../redux/selectors/productsSelector';
-import { fetchListedProducts, fetchNavigationData } from '../../redux/thunk/products';
+import SearchBox from './SearchBox.jsx';
+import { selectProductsByCollection } from '../../redux/selectors/productsSelector.js';
+import { fetchListedProducts, fetchNavigationData } from '../../redux/thunk/products.js';
 
 function Search() {
   const [searchTerm, setSearchTerm] = useState('');
