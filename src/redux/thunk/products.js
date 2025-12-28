@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-const BASE_URL = 'http://localhost:3000/products';
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/products`;
 
 export const fetchNavigationData = createAsyncThunk(
     'products/fetchNavigationData',

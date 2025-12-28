@@ -8,8 +8,7 @@ function AllProducts() {
 
 
     return (
-        <ProductsList collectionKey={"All"} endpoint={'http://localhost:3000/products/get'} />
-    )
+        <ProductsList collectionKey={"All"} endpoint={`${import.meta.env.VITE_API_BASE_URL}/products/get`} />)
 }
 
 export default AllProducts
