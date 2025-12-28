@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const signupFormSlice = createSlice({
   initialState: {
     email: '',
-    name: '',
+    firstname: '',
+    lastname: '',
     password: '',
   },
   name: 'signupForm',
@@ -11,8 +12,11 @@ const signupFormSlice = createSlice({
     setEmail: (state, action) => {
       state.email = action.payload;
     },
-    setName: (state, action) => {
-      state.name = action.payload;
+    setFirstname: (state, action) => {
+      state.firstname = action.payload;
+    },
+    setLastname: (state, action) => {
+      state.lastname = action.payload;
     },
     setPassword: (state, action) => {
       state.password = action.payload;
@@ -20,5 +24,5 @@ const signupFormSlice = createSlice({
   },
 });
 
-export const { setEmail, setName, setPassword } = signupFormSlice.actions;
+export const { setEmail, setFirstname, setLastname, setPassword } = signupFormSlice.actions;
 export default signupFormSlice.reducer;

@@ -12,7 +12,8 @@ import Navbar from '../../components/navbar/Navbar';
 import { setAccessToken } from '../../redux/reducers/accessTokenSlice';
 import {
   setEmail,
-  setName,
+  setFirstname,
+  setLastname,
   setPassword,
 } from '../../redux/reducers/signupFormSlice';
 
@@ -22,20 +23,21 @@ function SignUp() {
   const [signupError, setSignupError] = useState();
   const navigate = useNavigate();
   const [mailValid, setMailValid] = useState(true);
-  const { email, name, password } = useSelector((state) => state.signupForm);
+  const { email, firstname, lastname, password } = useSelector((state) => state.signupForm);
 
   const emailIsValid = (email) => {
     const regex = /^\S+@\S+\.\S+$/;
     return regex.test(email);
   };
 
-  const handleSignUp = (name, email, password) => {
+  const handleSignUp = (firstname, lastname, email, password) => {
     axios
       .post(
         `${import.meta.env.VITE_API_BASE_URL}/auth/signup`,
         {
           email: email,
-          name: name,
+          firstName: firstname,
+          lastName: lastname,
           password: password,
         },
         {
@@ -65,7 +67,7 @@ function SignUp() {
             md: 'row',
             lg: 'row',
             xl: 'row'
-}}
+          }}
           gutter={0}
           style={{ flexGrow: 1 }}
         >
@@ -77,7 +79,7 @@ function SignUp() {
               md: '100%',
               lg: '',
               xl: ''
-}}
+            }}
             style={{
               backgroundImage: `url(${signupBg})`,
               backgroundRepeat: 'no-repeat',
@@ -89,7 +91,7 @@ function SignUp() {
               md: '50%',
               lg: '40%',
               xl: '40%'
-}}
+            }}
           >
             <Flex
               align="center"
@@ -101,7 +103,7 @@ function SignUp() {
                 md: '100%',
                 lg: '',
                 xl: ''
-}}
+              }}
               p="xl"
               style={{
                 backgroundImage: `url(${signupBg})`,
@@ -115,7 +117,7 @@ function SignUp() {
               <Text fw={500} size="lg" ta={'center'}>
                 Get started in seconds. Find amazing deals and shop with ease!
               </Text>
-              {}
+              { }
             </Flex>
           </Box>
 
@@ -129,21 +131,21 @@ function SignUp() {
               md: '100%',
               lg: '',
               xl: ''
-}}
+            }}
             p={{
               xs: 'lg',
               sm: '',
               md: 'none',
               lg: '',
               xl: ''
-}}
+            }}
             w={{
               xs: '100%',
               sm: '100%',
               md: '50%',
               lg: '60%',
               xl: '60%'
-}}
+            }}
           >
             <Box
               mih={'30%'}
@@ -153,22 +155,37 @@ function SignUp() {
                 md: '70%',
                 lg: '70%',
                 xl: '40%'
-}}
+              }}
             >
               <Flex direction={'column'} h={'100%'} justify={'space-evenly'}>
                 <Flex direction={'column'} gap={'lg'}>
-                  <Input.Wrapper label="Name" required>
-                    <Input
-                      error={signupError ? true : false}
-                      onChange={(e) => {
-                        dispatch(setName(e.target.value));
-                        setSignupError(null);
-                      }}
-                      placeholder="Enter Your Name"
-                      size="md"
-                      type="text"
-                    />
-                  </Input.Wrapper>
+                  <Flex gap={'md'} justify={'space-between'}>
+
+                    <Input.Wrapper label="First Name" required>
+                      <Input
+                        error={signupError ? true : false}
+                        onChange={(e) => {
+                          dispatch(setFirstname(e.target.value));
+                          setSignupError(null);
+                        }}
+                        placeholder="Enter Your Name"
+                        size="md"
+                        type="text"
+                      />
+                    </Input.Wrapper>
+                    <Input.Wrapper label="Last Name" required>
+                      <Input
+                        error={signupError ? true : false}
+                        onChange={(e) => {
+                          dispatch(setLastname(e.target.value));
+                          setSignupError(null);
+                        }}
+                        placeholder="Enter Your Last Name"
+                        size="md"
+                        type="text"
+                      />
+                    </Input.Wrapper>
+                  </Flex>
                   <Input.Wrapper label="E-mail" required>
                     <Input
                       error={signupError || !mailValid}
@@ -212,9 +229,9 @@ function SignUp() {
                     Have an account? <Link to={'/login'}>Log In</Link>
                   </Text>
                   <BasicButton
-                    disabled={!(name && email && mailValid && password)}
+                    disabled={!(firstname && lastname && email && mailValid && password)}
                     onClick={() => {
-                      handleSignUp(name, email, password);
+                      handleSignUp(firstname, lastname, email, password);
                     }}
                     size="md"
                   >
