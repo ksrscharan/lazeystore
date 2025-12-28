@@ -32,12 +32,12 @@ function Dashboard() {
               <Image loading='lazy' h={'fit-content'} src={welcomeImg} />
             </Box>
           </Flex>
-          <DashboardCarousels carouselTitle={'Top Deals for You!'} navigationPath={'/products?page=1&limit=10&sortBy=createdAt&sortOrder=desc'} collectionKey={"All"} endpoint={'http://localhost:3000/products/get'} />
+          <DashboardCarousels carouselTitle={'Top Deals for You!'} navigationPath={'/products?page=1&limit=10&sortBy=createdAt&sortOrder=desc'} collectionKey={"All"} endpoint={`${import.meta.env.VITE_API_BASE_URL}/products/get`} />
 
           {
             categories.map((category, idx) => {
               return (
-                <DashboardCarousels key={idx} carouselTitle={`Best Products from ${category}!`} navigationPath={`/products/category/${category}`} collectionKey={category} endpoint={`http://localhost:3000/products/category/${category}`} />
+                <DashboardCarousels key={idx} carouselTitle={`Best Products from ${category}!`} navigationPath={`/products/category/${category}`} collectionKey={category} endpoint={`${import.meta.env.VITE_API_BASE_URL}/products/category/${category}`} />
 
               )
             })
