@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
-import { orderSchema } from '../schema/ordersSchema';
+import { orderSchema } from '../schema/ordersSchema.js';
 import { connectDB } from '../helpers/mongoConnect.js';
+import { userSchema } from '../schema/userSchema.js';
 
 connectDB();
 

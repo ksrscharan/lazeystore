@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { addressSchema } from "./userSchema";
+import { addressSchema } from "./userSchema.js";
 
 export const orderSchema = new mongoose.Schema({
     user: {

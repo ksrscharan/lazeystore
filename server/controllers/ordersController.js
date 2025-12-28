@@ -5,7 +5,7 @@ import {
     updateOrder,
     userOrders,
     userOrdersByDeliveryStatus
-} from '../models/ordersModel'
+} from '../models/ordersModel.js'
 
 export const createNewOrder = async (req, res) => {
     const { items, shippingAddress, totalAmount, deliveryStatus, paymentStatus } = req.body
