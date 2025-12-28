@@ -3,7 +3,7 @@ import { setAccessToken } from '../reducers/accessTokenSlice'
 export const handleLogout = (dispatch, navigate) => {
     axios
         .post(
-            'http://localhost:3000/auth/logout',
+            `${import.meta.env.VITE_API_BASE_URL}/auth/logout`,
             {},
             {
                 withCredentials: true,
@@ -26,7 +26,7 @@ export const handleLogout = (dispatch, navigate) => {
 
 export const getNewAccessToken = (dispatch) => {
     axios
-        .get('http://localhost:3000/auth/createAccessToken', {
+        .get(`${import.meta.env.VITE_API_BASE_URL}/auth/createAccessToken`, {
             withCredentials: true,
         })
         .then((res) => {

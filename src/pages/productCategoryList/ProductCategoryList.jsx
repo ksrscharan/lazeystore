@@ -6,7 +6,7 @@ function ProductCategoryList() {
 
   return (
 
-    <ProductsList collectionKey={category} endpoint={`http://localhost:3000/products/category/${encodeURIComponent(category)}`} params={{page: 1, limit: 10, sortBy: "createdAt", sortOrder: "desc"}} />
+    <ProductsList collectionKey={category} endpoint={`${import.meta.env.VITE_API_BASE_URL}/products/category/${encodeURIComponent(category)}`} params={{page: 1, limit: 10, sortBy: "createdAt", sortOrder: "desc"}} />
   )
 }
 

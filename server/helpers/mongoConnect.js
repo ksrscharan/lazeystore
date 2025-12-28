@@ -1,8 +1,11 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
+
+dotenv.config();
 export const connectDB = () => {
   mongoose
-    .connect('mongodb://localhost:27017/lazeystore', {})
+    .connect(`${process.env.MONGODB_URI}/lazeystore`, {})
     .then(() => {
       console.log('Connected to MongoDB');
     })
