@@ -11,7 +11,7 @@ function ProductCategorySubCategoryList() {
   }, [category, subCategory])
   
   return (
-    <ProductsList collectionKey={`${category}${subCategory}`} endpoint={`http://localhost:3000/products/category/${encodeURIComponent(category)}/${encodeURIComponent(subCategory)}`}  params={{page: 1, limit: 10, sortBy: "createdAt", sortOrder: "desc"}} />
+    <ProductsList collectionKey={`${category}${subCategory}`} endpoint={`${import.meta.env.VITE_API_BASE_URL}/products/category/${encodeURIComponent(category)}/${encodeURIComponent(subCategory)}`}  params={{page: 1, limit: 10, sortBy: "createdAt", sortOrder: "desc"}} />
     
   )
 }

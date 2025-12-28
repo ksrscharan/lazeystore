@@ -28,7 +28,7 @@ function Login() {
   const handleSubmit = (email, password) => {
     axios
       .post(
-        'http://localhost:3000/auth/login',
+        `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
         { email: email, password: password },
         { withCredentials: true }
       )
@@ -46,7 +46,7 @@ function Login() {
 
   const getNewAccessToken = () => {
     axios
-      .get('http://localhost:3000/auth/createAccessToken', {
+      .get(`${import.meta.env.VITE_API_BASE_URL}/auth/createAccessToken`, {
         withCredentials: true,
       })
       .then((res) => {
