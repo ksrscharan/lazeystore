@@ -47,9 +47,9 @@ function Navbar() {
             <Search />
           </Box>
           <Group>
-            
+
             <NavMenu />
-            
+
             <ColorToggle />
             <Menu>
               <Menu.Target>
@@ -62,7 +62,7 @@ function Navbar() {
                   <>
                     <Menu.Item leftSection={<IconLogout2 />}><Text onClick={() => handleLogout(dispatch, navigate)}>Log Out</Text></Menu.Item>
                     <Menu.Item leftSection={<IconShoppingCart />}><Text >Cart</Text></Menu.Item>
-                    <Menu.Item leftSection={<IconShoppingBagHeart />}><Text >WishList</Text></Menu.Item>
+                    <Menu.Item onClick={() => navigate('/wishlist')} leftSection={<IconShoppingBagHeart />}><Text >WishList</Text></Menu.Item>
                   </>
                 )}
               </Menu.Dropdown>

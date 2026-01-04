@@ -31,7 +31,7 @@ function App() {
             <Route element={<ProductCategoryList />} path="/products/category/:category" />
             <Route element={<ProductCategorySubCategoryList />} path="/products/category/:category/:subCategory" />
             <Route element={<ProductDetails />} path="/product/:slug" />
-            {/* <Route element={<ProductDetails />} path="/product/:id" /> */}
+            <Route element={<WishList />} path="/wishlist" />
           </Routes>
         </BrowserRouter>
       </MantineProvider>

@@ -11,11 +11,15 @@ import remarkGfm from 'remark-gfm';
 import { BasicButton, OutlineButton } from '../../components/buttons/Buttons';
 import Link from '../../components/links/Link';
 import { slantLineThrough } from '../../helpers/variables';
+import { addToCart, addToWishlist, removeFromWishlist } from '../../redux/thunk/userProduct';
+import { useDispatch } from 'react-redux';
 
 function ProductDescription({ product }) {
-  const [wish, setWish] = useState()
+  const [isWishlisted, setIsWishlisted] = useState(false)
+  const dispatch = useDispatch()
   const [ratings, setRatings] = useState();
-  useEffect(()=>{
+
+  useEffect(() => {
     let rates = 0
     product?.reviews?.forEach(review => {
       rates += review.rating
@@ -88,7 +92,8 @@ function ProductDescription({ product }) {
           <Text>{product && product?.reviews?.length} Reviews</Text>
         </Flex>
         <Flex justify={'flex-end'} mx={'xl'} my={'xl'}>
-          <OutlineButton>Add to Cart</OutlineButton>
+          <OutlineButton onClick={() => dispatch(addToCart(product))
+          }>Add to Cart</OutlineButton>
           <Tooltip disabled={product?.available} label="Product Out of Stock">
             <BasicButton disabled={!product?.available} mx={'lg'}>
               Buy Now
@@ -97,23 +102,34 @@ function ProductDescription({ product }) {
           <Flex
             align={'center'}
             color="green.0"
-            onClick={() => setWish(!wish)}
             style={{
               cursor: 'pointer'
             }}
           >
-            {wish ? (
-              <Tooltip label="Add to Wishlist">
-                <IconStar style={{ outline: 'var(--mantine-color-green-0)' }} />
+            {isWishlisted ? (
+              <Tooltip label="Remove From Wishlist">
+                <OutlineButton onClick={() => {
+                  dispatch(removeFromWishlist(product))
+                  setIsWishlisted(false)
+                }}>
+                  <IconStarFilled style={{ outline: 'var(--mantine-color-green-0)' }} /> Remove From Wishlist
+                </OutlineButton>
               </Tooltip>
             ) : (
-              <Tooltip label="Remove from Wishlist">
-                <IconStarFilled
-                  style={{
-                    fill: 'var(--mantine-color-green-0)',
-                    outline: 'inherit',
-                  }}
-                />
+              <Tooltip label="Add To Wishlist">
+                <OutlineButton onClick={
+                  () => {
+                    dispatch(addToWishlist(product))
+                    setIsWishlisted(true)
+                  }
+                }>
+                  <IconStar
+                    style={{
+                      outline: 'inherit',
+                    }}
+                  /> Add To Wishlist
+                </OutlineButton>
+
               </Tooltip>
             )}
           </Flex>
