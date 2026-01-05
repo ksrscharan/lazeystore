@@ -1,9 +1,10 @@
 import { Badge, Box, Flex, Image, Rating, ScrollArea, Text } from '@mantine/core';
 import { IconArrowBadgeRight, IconMinus, IconPlus } from '@tabler/icons-react';
+import { useDispatch } from 'react-redux';
 import { slantLineThrough } from '../../helpers/variables';
 import { OutlineButton } from '../buttons/Buttons';
+import EmptyCart from '../emptyPages/emptyCart';
 import { addToCart, reduceFromCart, removeFromCart } from '../../redux/thunk/userProduct';
-import { useDispatch } from 'react-redux';
 
 function CartProductList({ products, navigate }) {
     const dispatch = useDispatch()
@@ -11,7 +12,7 @@ function CartProductList({ products, navigate }) {
         <>
             {
                 products?.length < 1 ? <EmptyCart /> :
-                    <ScrollArea type='hover'>
+                    <ScrollArea type='hover' w={'100%'}>
                         {products?.map((product) => (
                             <Box
                                 bd={'1px solid var(--mantine-color-green-0)'}
@@ -30,7 +31,7 @@ function CartProductList({ products, navigate }) {
                                         loading='lazy'
                                     />
                                     <Box
-                                        w={'60%'}
+                                        w={'40%'}
                                         style={{ cursor: 'pointer' }}
                                         onClick={() => {
                                             navigate(`/product/${product.productId?.slug}`);
@@ -97,25 +98,25 @@ function CartProductList({ products, navigate }) {
 
                                         </Flex>
                                     </Box>
-                                    <Box w={'10%'}>
-                                        <Flex direction={'column'} justify={'center'} align={'center'} w={'100%'}>
+                                    <Box w={'15%'}>
+                                        <Flex direction={'column'} justify={'center'} align={'center'} w={'100%'} gap={'xs'}>
                                             <Text>Quantity: </Text>
                                             <Box w={'100%'}>
                                                 <Flex w={'100%'} justify={'space-between'} align={'center'}>
-                                                    <OutlineButton
-                                                        onClick={() => {
-                                                            dispatch(addToCart(product?.productId))
-                                                        }}
-                                                    >
-                                                        <IconPlus />
-                                                    </OutlineButton>
-                                                    <Text>{product?.quantity}</Text>
                                                     <OutlineButton
                                                         onClick={() => {
                                                             dispatch(reduceFromCart(product?.productId))
                                                         }}
                                                     >
                                                         <IconMinus />
+                                                    </OutlineButton>
+                                                    <Text m={'auto'} size='xl' c={'green.0'}>{product?.quantity}</Text>
+                                                    <OutlineButton
+                                                        onClick={() => {
+                                                            dispatch(addToCart(product?.productId))
+                                                        }}
+                                                    >
+                                                        <IconPlus />
                                                     </OutlineButton>
                                                 </Flex>
                                             </Box>

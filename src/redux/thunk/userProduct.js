@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { } from '../reducers/userDetailsSlice'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Flex } from '@mantine/core'
+import { Box, Flex } from '@mantine/core'
 
 import Navbar from '../../components/navbar/Navbar'
 import WishlistProductList from '../../components/productsList/WishlistProductList'
@@ -23,12 +23,12 @@ function WishList() {
     }
   }, [token])
   return (
-    <>
+    <Box h={'100vh'} w={'100vw'}>
       <Navbar />
-      <Flex direction={'column'}>
+      <Flex align={'center'} m={'auto'} direction={'column'} h={'80vh'} w={'80%'}>
         <WishlistProductList products={user?.data?.wishlist} navigate={navigate} />
       </Flex>
-    </>
+    </Box>
   )
 }
 

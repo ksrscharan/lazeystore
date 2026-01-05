@@ -1,10 +1,10 @@
 import { Badge, Box, Flex, Image, Rating, ScrollArea, Text } from '@mantine/core';
 import { IconArrowBadgeRight } from '@tabler/icons-react';
+import { useDispatch } from 'react-redux';
 import { slantLineThrough } from '../../helpers/variables';
 import { OutlineButton } from '../buttons/Buttons';
-import { removeFromWishlist } from '../../redux/thunk/userProduct';
-import { useDispatch } from 'react-redux';
 import EmptyWishlist from '../emptyPages/EmptyWishlist';
+import { removeFromWishlist } from '../../redux/thunk/userProduct';
 
 function WishlistProductList({ products, navigate }) {
     const dispatch = useDispatch();
@@ -13,7 +13,7 @@ function WishlistProductList({ products, navigate }) {
             {
                 products?.length < 1 ? 
                 <EmptyWishlist /> :
-                    <ScrollArea type='hover'>
+                    <ScrollArea type='hover' w={'100%'}>
                         {products?.map((product) => (
                             <Box
                                 bd={'1px solid var(--mantine-color-green-0)'}
@@ -32,11 +32,11 @@ function WishlistProductList({ products, navigate }) {
                                         loading='lazy'
                                     />
                                     <Box
-                                        w={'60%'}
+                                        w={'40%'}
+                                        style={{ cursor: 'pointer' }}
                                         onClick={() => {
                                             navigate(`/product/${product.productId?.slug}`);
                                         }}
-                                        style={{ cursor: 'pointer' }}
 
                                     >
                                         <Flex align={'center'}>
