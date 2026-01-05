@@ -3,7 +3,7 @@ import { IconArrowBadgeRight, IconMinus, IconPlus } from '@tabler/icons-react';
 import { useDispatch } from 'react-redux';
 import { slantLineThrough } from '../../helpers/variables';
 import { OutlineButton } from '../buttons/Buttons';
-import EmptyCart from '../emptyPages/emptyCart';
+import EmptyCart from '../emptyPages/EmptyCart';
 import { addToCart, reduceFromCart, removeFromCart } from '../../redux/thunk/userProduct';
 
 function CartProductList({ products, navigate }) {
