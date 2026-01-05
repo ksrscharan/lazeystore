@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addToCart, addToWishlist, reduceFromCart, removeFromCart, removeFromWishlist } from '../thunk/userProduct'
+import { addToCart, addToWishlist, getUser, reduceFromCart, removeFromCart, removeFromWishlist } from '../thunk/userProduct'
 
 const userDetailsSlice = createSlice({
     initialState: {
@@ -17,6 +17,8 @@ const userDetailsSlice = createSlice({
         }).addCase(removeFromCart.fulfilled, (state, action) => {
             state.user = action.payload
         }).addCase(reduceFromCart.fulfilled, (state, action) => {
+            state.user = action.payload
+        }).addCase(getUser.fulfilled, (state, action) => {
             state.user = action.payload
         })
     }
