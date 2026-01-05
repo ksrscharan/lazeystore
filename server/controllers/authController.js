@@ -5,6 +5,8 @@ import {
   createUser,
   deleteUser,
   findUserByEmail,
+  findUserById,
+  userDetailsById,
 } from '../models/userModel.js';
 const bcrypt = await import('bcryptjs');
 dotenv.config();
@@ -186,3 +188,17 @@ export const deleteAccount = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const getUserDetails = async (req, res) => {
+  const id = req.user.id;
+  try {
+
+    const user = await userDetailsById(id);
+    if (!user) {
+      return res.status(401).json({ message: 'No User Found' });
+    }
+    return res.status(200).json({ data: user })
+  } catch (err) {
+    return res.status(500).json({ message: err.message })
+  }
+}

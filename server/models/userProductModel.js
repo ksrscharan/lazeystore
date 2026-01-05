@@ -52,7 +52,7 @@ export const addItemToWishlist = async (productDetails, user) => {
     }
   },
     { new: true, runValidators: true }
-  );
+  ).populate('wishlist.productId').populate('cart.productId');
 }
 export const removeItemFromWishlist = async (productDetails, user) => {
   const isProductInWishlist = await UserModel.findOne({
@@ -67,7 +67,7 @@ export const removeItemFromWishlist = async (productDetails, user) => {
     $pull: { wishlist: { productId: productDetails._id } }
   },
     { new: true, runValidators: true }
-  );
+  ).populate('wishlist.productId').populate('cart.productId');
 }
 
 export const addItemToCart = async (productDetails, user) => {
@@ -75,7 +75,7 @@ export const addItemToCart = async (productDetails, user) => {
     { _id: user.id, "cart.productId": productDetails._id },
     { $inc: { "cart.$.quantity": 1 } },
     { new: true }
-  );
+  ).populate('wishlist.productId').populate('cart.productId');
   if (!updatedUser) {
     return await UserModel.findByIdAndUpdate(
       user.id,
@@ -91,7 +91,7 @@ export const addItemToCart = async (productDetails, user) => {
         }
       },
       { new: true, runValidators: true }
-    );
+    ).populate('wishlist.productId').populate('cart.productId');
   }
   return updatedUser;
 };
@@ -107,7 +107,7 @@ export const removeItemFromCart = async (productDetails, user) => {
     $pull: { cart: { productId: productDetails._id } }
   },
     { new: true, runValidators: true }
-  );
+  ).populate('wishlist.productId').populate('cart.productId');
 }
 export const reduceQuantityCart = async (productDetails, user) => {
   const userDoc = await UserModel.findOne({
@@ -126,12 +126,12 @@ export const reduceQuantityCart = async (productDetails, user) => {
       { _id: user.id, "cart.productId": productDetails._id },
       { $inc: { "cart.$.quantity": -1 } },
       { new: true }
-    );
+    ).populate('wishlist.productId').populate('cart.productId');
   } else {
     return await UserModel.findByIdAndUpdate(
       user.id,
       { $pull: { cart: { productId: productDetails._id } } },
       { new: true }
-    );
+    ).populate('wishlist.productId').populate('cart.productId');
   }
 };
