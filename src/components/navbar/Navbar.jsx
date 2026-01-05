@@ -16,7 +16,9 @@ function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = useSelector((state) => state.accessToken.token);
-
+  useEffect(()=>{
+    
+  }, [])
   return (
     <Flex
       direction={'column'}
@@ -61,7 +63,7 @@ function Navbar() {
                 {token !== null && (
                   <>
                     <Menu.Item leftSection={<IconLogout2 />}><Text onClick={() => handleLogout(dispatch, navigate)}>Log Out</Text></Menu.Item>
-                    <Menu.Item leftSection={<IconShoppingCart />}><Text >Cart</Text></Menu.Item>
+                    <Menu.Item onClick={() => navigate('/cart')} leftSection={<IconShoppingCart />}><Text >Cart</Text></Menu.Item>
                     <Menu.Item onClick={() => navigate('/wishlist')} leftSection={<IconShoppingBagHeart />}><Text >WishList</Text></Menu.Item>
                   </>
                 )}
