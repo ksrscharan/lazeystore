@@ -16,14 +16,7 @@ const productsSlice = createSlice({
     loading: false,
     error: null
   },
-  reducers: {
-    setCategories: (state, action) => {
-      state.categories = action.payload;
-    },
-    setSubCategories: (state, action) => {
-      state.subCategories = action.payload;
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchNavigationData.fulfilled, (state, action) => {

@@ -1,4 +1,4 @@
-import { Badge, Box, Flex, Rating, Text, Tooltip } from '@mantine/core';
+import { Badge, Box, Flex, Notification, Rating, Text, Tooltip } from '@mantine/core';
 import {
   IconArrowBadgeRight,
   IconStar,
@@ -11,17 +11,32 @@ import remarkGfm from 'remark-gfm';
 import { BasicButton, OutlineButton } from '../../components/buttons/Buttons';
 import Link from '../../components/links/Link';
 import { slantLineThrough } from '../../helpers/variables';
+import { addToCart, addToWishlist, removeFromWishlist } from '../../redux/thunk/userProduct';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function ProductDescription({ product }) {
-  const [wish, setWish] = useState()
+  const [isWishlisted, setIsWishlisted] = useState(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [ratings, setRatings] = useState();
-  useEffect(()=>{
+  const user = useSelector(state => state.userDetails.user)
+  const [notify, setNotify] = useState(false)
+  useEffect(() => {
+    if (notify) {
+      const timer = setTimeout(() => {
+        setNotify(false)
+      }, 3000)
+    }
+  })
+  useEffect(() => {
     let rates = 0
     product?.reviews?.forEach(review => {
       rates += review.rating
     });
     setRatings(product?.reviews?.length > 0 ? rates / product.reviews.length : 0);
   }, [product])
+
   return (
     <>
       <Box
@@ -88,7 +103,17 @@ function ProductDescription({ product }) {
           <Text>{product && product?.reviews?.length} Reviews</Text>
         </Flex>
         <Flex justify={'flex-end'} mx={'xl'} my={'xl'}>
-          <OutlineButton>Add to Cart</OutlineButton>
+          <OutlineButton onClick={() => {
+            dispatch(addToCart(product))
+            if (user) {
+              const isInCart = user?.data?.cart?.some(
+                (item) => item.productId?._id === product._id
+              );
+              console.log(isInCart);
+              setNotify(true)
+            }
+          }
+          }>Add to Cart</OutlineButton>
           <Tooltip disabled={product?.available} label="Product Out of Stock">
             <BasicButton disabled={!product?.available} mx={'lg'}>
               Buy Now
@@ -97,23 +122,37 @@ function ProductDescription({ product }) {
           <Flex
             align={'center'}
             color="green.0"
-            onClick={() => setWish(!wish)}
             style={{
               cursor: 'pointer'
             }}
           >
-            {wish ? (
-              <Tooltip label="Add to Wishlist">
-                <IconStar style={{ outline: 'var(--mantine-color-green-0)' }} />
-              </Tooltip>
-            ) : (
-              <Tooltip label="Remove from Wishlist">
+            {isWishlisted ? (
+              <Tooltip label="Remove From Wishlist">
+                {/* <OutlineButton > */}
                 <IconStarFilled
-                  style={{
-                    fill: 'var(--mantine-color-green-0)',
-                    outline: 'inherit',
+                  style={{ outline: 'var(--mantine-color-green-0)' }}
+                  onClick={() => {
+                    dispatch(removeFromWishlist(product))
+                    setIsWishlisted(false)
                   }}
                 />
+                {/* </OutlineButton> */}
+              </Tooltip>
+            ) : (
+              <Tooltip label="Add To Wishlist">
+                {/* <OutlineButton> */}
+                <IconStar
+                  style={{
+                    outline: 'inherit',
+                  }}
+                  onClick={() => {
+                    dispatch(addToWishlist(product))
+                    setIsWishlisted(true)
+                  }
+                  }
+                />
+                {/* </OutlineButton> */}
+
               </Tooltip>
             )}
           </Flex>
@@ -121,11 +160,20 @@ function ProductDescription({ product }) {
 
         <Box my={'lg'}>
           { }
-          {/* <Text fw={100}> */}
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{` ### Product Description \n ${product.detailedDescription}`}</ReactMarkdown>
-          {/* </Text> */}
         </Box>
-      </Box>
+      </Box >
+      {notify && <Notification bd={'3px solid green.0'} color='green.0' pos={'absolute'} right={'2vw'} style={{ zIndex: 100 }} onClose={() => setNotify(false)}>
+        <Text c={'green.0'} size='lg'>Item Added to your Cart</Text>
+        <Text size='sm'>
+          {product?.title} is Added to your Cart. Check out now.
+        </Text>
+        <OutlineButton onClick={() => {
+          setNotify(false)
+          navigate('/cart')
+        }} my={'sm'}>Visit Cart</OutlineButton>
+      </Notification>
+      }
     </>
   );
 }

@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { setAccessToken } from '../reducers/accessTokenSlice'
+import { useNavigate } from 'react-router-dom';
+
 export const handleLogout = (dispatch, navigate) => {
     axios
         .post(

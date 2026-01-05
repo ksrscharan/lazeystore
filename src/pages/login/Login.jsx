@@ -11,6 +11,7 @@ import Link from '../../components/links/Link';
 import Navbar from '../../components/navbar/Navbar';
 import { setAccessToken } from '../../redux/reducers/accessTokenSlice';
 import { setEmail, setPassword } from '../../redux/reducers/loginFormSlice';
+import { getNewAccessToken } from '../../redux/thunk/account';
 
 function Login() {
   const navigate = useNavigate();
@@ -44,23 +45,14 @@ function Login() {
       });
   };
 
-  const getNewAccessToken = () => {
-    axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/auth/createAccessToken`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        dispatch(setAccessToken(res.data.accessToken));
-        navigate('/');
-      })
-      .catch((e) => {
-        console.log('Silent refresh failed:', e.message);
-      });
-  };
-
   useEffect(() => {
-    getNewAccessToken();
+    getNewAccessToken(dispatch);
   }, []);
+  useEffect(() => {
+        if(token){
+      navigate('/')
+    }
+  }, [token]);
 
   return (
     <>
@@ -73,7 +65,7 @@ function Login() {
             md: 'row',
             lg: 'row',
             xl: 'row'
-}}
+          }}
           gutter={0}
           style={{ flexGrow: 1 }}
         >
@@ -85,7 +77,7 @@ function Login() {
               md: '100%',
               lg: '',
               xl: ''
-}}
+            }}
             style={{
               backgroundImage: `url(${bakImage})`,
               backgroundRepeat: 'no-repeat',
@@ -97,7 +89,7 @@ function Login() {
               md: '50%',
               lg: '40%',
               xl: '40%'
-}}
+            }}
           >
             <Flex
               align="center"
@@ -109,7 +101,7 @@ function Login() {
                 md: '100%',
                 lg: '',
                 xl: ''
-}}
+              }}
               p="xl"
               style={{
                 backgroundImage: `url(${bakImage})`,
@@ -137,21 +129,21 @@ function Login() {
               md: '100%',
               lg: '',
               xl: ''
-}}
+            }}
             p={{
               xs: 'lg',
               sm: '',
               md: 'none',
               lg: '',
               xl: ''
-}}
+            }}
             w={{
               xs: '100%',
               sm: '100%',
               md: '50%',
               lg: '60%',
               xl: '60%'
-}}
+            }}
           >
             <Box
               mih={'30%'}
@@ -161,7 +153,7 @@ function Login() {
                 md: '70%',
                 lg: '',
                 xl: '40%'
-}}
+              }}
             >
               <Flex direction={'column'} h={'100%'} justify={'space-evenly'}>
                 <Flex direction={'column'} gap={'lg'}>

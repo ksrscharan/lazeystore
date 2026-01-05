@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { selectProductsByCollection } from '../../redux/selectors/productsSelector';
 import { fetchListedProducts } from '../../redux/thunk/products';
-import { BackgroundImage, Box, Center, Flex, Pagination, ScrollArea, Select, Text } from '@mantine/core';
+import { BackgroundImage, Box, Center, Flex, Pagination, Select, Text } from '@mantine/core';
 import Navbar from '../navbar/Navbar';
 import ProductListCards from '../../pages/productsList/ProductListCards';
 import { Carousel } from '@mantine/carousel';
@@ -71,7 +71,7 @@ function ProductsList({ collectionKey, endpoint, params }) {
             <Navbar />
             {(collectionKey !== "All" && categories.includes(collectionKey)) ? (
                 <>
-                    <Text  m={'sm'} size='lg'>Browse by Popular Niches under {collectionKey}</Text>
+                    <Text m={'sm'} size='lg'>Browse by Popular Niches under {collectionKey}</Text>
 
                     <Carousel
                         slideSize="70%"
@@ -94,7 +94,7 @@ function ProductsList({ collectionKey, endpoint, params }) {
                                     w={'250px'}
                                     miw={'250px'}
                                     mih={'70px'}
-                                    onClick={() => { navigate(`/products/category/${encodeURIComponent(collectionKey)}/${encodeURIComponent(scat)}?page=1&limit=10&sortBy=createdAt&sortOrder=desc`, ) }}
+                                    onClick={() => { navigate(`/products/category/${encodeURIComponent(collectionKey)}/${encodeURIComponent(scat)}?page=1&limit=10&sortBy=createdAt&sortOrder=desc`,) }}
                                 >
                                     <Box h={'100%'} w={'100%'}>
                                         <Center h={'100%'} w={'100%'}>

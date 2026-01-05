@@ -5,7 +5,7 @@ import loginFormReducer from './reducers/loginFormSlice';
 import productsReducer from './reducers/productsSlice';
 import signupFormReducer from './reducers/signupFormSlice';
 import themeReducer from './reducers/themeSlice';
-import wishListReducer from './reducers/wishListSlice';
+import userDetails from './reducers/userDetailsSlice'
 
 const store = configureStore({
   reducer: {
@@ -14,7 +14,7 @@ const store = configureStore({
     products: productsReducer,
     signupForm: signupFormReducer,
     theme: themeReducer,
-    wishList: wishListReducer,
+    userDetails: userDetails
   },
 });
 

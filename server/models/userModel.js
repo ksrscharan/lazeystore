@@ -19,6 +19,9 @@ export const findUserByEmail = async (email) => {
 export const findUserById = async (id) => {
   return await UserModel.findOne({ _id: id });
 };
+export const userDetailsById = async (id) => {
+  return await UserModel.findOne({ _id: id }).select('-password').populate('wishlist.productId').populate('cart.productId');
+};
 
 export const deleteUser = async (email) => {
   await UserModel.deleteOne({ email: email });
