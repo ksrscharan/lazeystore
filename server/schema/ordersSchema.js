@@ -9,9 +9,6 @@ export const orderSchema = new mongoose.Schema({
     },
     items: [{
         productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-        slug: String,
-        title: String,
-        image: [String],
         purchasePrice: Number,
         quantity: { type: Number, default: 1 }
     }],

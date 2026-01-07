@@ -15,6 +15,7 @@ import ProductCategoryList from './pages/productCategoryList/ProductCategoryList
 import ProductCategorySubCategoryList from './pages/productCategorySubCategoryList/ProductCategorySubCategoryList.jsx';
 import AllProducts from './pages/productsList/AllProducts.jsx';
 import Cart from './pages/cart/Cart.jsx';
+import Checkout from './pages/checkout/Checkout.jsx';
 
 function App() {
   const mode = useSelector((state) => state.theme.mode);
@@ -34,6 +35,7 @@ function App() {
             <Route element={<ProductDetails />} path="/product/:slug" />
             <Route element={<WishList />} path="/wishlist" />
             <Route element={<Cart />} path="/cart" />
+            <Route element={<Checkout />} path="/checkout" />
           </Routes>
         </BrowserRouter>
       </MantineProvider>
