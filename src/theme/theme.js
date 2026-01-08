@@ -12,7 +12,9 @@ const lightTheme = createTheme({
   black: '#171e10',
   breakpoints,
   colors: {
-    green: ['#80986f'],
+    // green: ['#80986f'],
+    // green: ['#6366f1'],
+    green: [' #10b981'],
   },
   colorScheme: 'light',
   components: {
@@ -31,14 +33,16 @@ const lightTheme = createTheme({
   },
   fontFamily: 'Hammersmith One, Courier New, Courier, monospace',
   primaryColor: 'orange',
-  white: '#f3fdea',
+  // white: '#f3fdea',
+  white: ' #f8f9fa ', // {Future design choice}
 });
 
 const darkTheme = createTheme({
   black: '#f3fdea',
   breakpoints,
   colors: {
-    green: ['#80986f'],
+    // green: ['#80986f'],
+    green: [' #10b981'],
   },
   colorScheme: 'dark',
   components: {
@@ -57,6 +61,7 @@ const darkTheme = createTheme({
   },
   fontFamily: 'Hammersmith One, Courier New, Courier, monospace',
   primaryColor: 'orange',
-  white: '#171e10',
+  // white: '#171e10',
+  white: '#0f1117',
 });
 export { darkTheme, lightTheme };

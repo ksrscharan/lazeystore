@@ -20,7 +20,46 @@ export const initiateNewOrder = createAsyncThunk(
                 shippingAddress: selectedAddress,
                 totalAmount: totalAmount,
                 deliveryStatus: "Pending",
-                paymentStatus: "Unpaid"
+                paymentStatus: "Paid"
+            }, {
+                headers: {
+                    Authorization: `Bearer ${ACCESS_TOKEN}`
+                },
+                withCredentials: true
+            })
+            return response.data;
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    }
+)
+export const getUserOrders = createAsyncThunk(
+    "orders/getUserOrders", async (_, { getState, rejectWithValue }) => {
+        const state = getState()
+        const ACCESS_TOKEN = state.accessToken.token
+        try {
+            const response = await axios.get(`${BASE_URL}/all`, {
+                headers: {
+                    Authorization: `Bearer ${ACCESS_TOKEN}`
+                },
+                withCredentials: true
+            })
+            console.log(response.data);
+
+            return response.data;
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    }
+)
+
+export const getOrderDetails = createAsyncThunk(
+    "order/getOrderDetails", async (orderId, { getState, rejectWithValue }) => {
+        const state = getState()
+        const ACCESS_TOKEN = state.accessToken.token
+        try {
+            const response = await axios.post(`${BASE_URL}/details`, {
+                orderId: orderId
             }, {
                 headers: {
                     Authorization: `Bearer ${ACCESS_TOKEN}`
