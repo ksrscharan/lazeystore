@@ -276,7 +276,6 @@ function Checkout() {
                     <NumberInput
                       onBlur={(e) => {
                         const val = e.trim();
-                        // Validate length is exactly 16
                         if (val.length !== 16) {
                           setIsAddressValid(prev => ({ ...prev, card: false }));
                         }
