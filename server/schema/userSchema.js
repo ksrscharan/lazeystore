@@ -6,7 +6,7 @@ export const addressSchema = new mongoose.Schema({
   landmark: String,
   area: String,
   state: String,
-  pincode: String,
+  pincode: Number,
   isDefault: { type: Boolean, default: false }
 }, { _id: true });
 

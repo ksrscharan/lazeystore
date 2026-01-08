@@ -1,6 +1,6 @@
 
-import { Avatar, Box, Flex, Group, Image, Menu, Text } from '@mantine/core';
-import { IconLogin2, IconLogout2, IconShoppingBagHeart, IconShoppingCart } from '@tabler/icons-react';
+import { Avatar, Box, Flex, Group, Image, Menu, Paper, Text } from '@mantine/core';
+import { IconLogin2, IconLogout2, IconPackageExport, IconShoppingBagHeart, IconShoppingCart } from '@tabler/icons-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,8 +16,8 @@ function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = useSelector((state) => state.accessToken.token);
-  useEffect(()=>{
-    
+  useEffect(() => {
+
   }, [])
   return (
     <Flex
@@ -55,18 +55,21 @@ function Navbar() {
             <ColorToggle />
             <Menu>
               <Menu.Target>
-                <Avatar radius="xl" color='green.0' />
+                <Avatar style={{ cursor: 'pointer' }} radius="xl" color='green.0' />
               </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Label>Account</Menu.Label>
-                {token === null && <Menu.Item leftSection={<IconLogin2 />}><Link to={'/login'}>Log In</Link></Menu.Item>}
-                {token !== null && (
-                  <>
-                    <Menu.Item leftSection={<IconLogout2 />}><Text onClick={() => handleLogout(dispatch, navigate)}>Log Out</Text></Menu.Item>
-                    <Menu.Item onClick={() => navigate('/cart')} leftSection={<IconShoppingCart />}><Text >Cart</Text></Menu.Item>
-                    <Menu.Item onClick={() => navigate('/wishlist')} leftSection={<IconShoppingBagHeart />}><Text >WishList</Text></Menu.Item>
-                  </>
-                )}
+              <Menu.Dropdown w={'200px'}>
+                <Paper shadow='lg' withBorder radius="md">
+                  <Menu.Label ta={'center'}>Account</Menu.Label>
+                  {token === null && <Menu.Item leftSection={<IconLogin2 />}><Link to={'/login'}>Log In</Link></Menu.Item>}
+                  {token !== null && (
+                    <>
+                      <Menu.Item onClick={() => handleLogout(dispatch, navigate)} leftSection={<IconLogout2 />}><Text ta={'center'}>Log Out</Text></Menu.Item>
+                      <Menu.Item onClick={() => navigate('/cart')} leftSection={<IconShoppingCart />}><Text ta={'center'} >Cart</Text></Menu.Item>
+                      <Menu.Item onClick={() => navigate('/wishlist')} leftSection={<IconShoppingBagHeart />}><Text ta={'center'} >WishList</Text></Menu.Item>
+                      <Menu.Item onClick={() => navigate('/orders')} leftSection={<IconPackageExport />}><Text ta={'center'} >Orders</Text></Menu.Item>
+                    </>
+                  )}
+                </Paper>
               </Menu.Dropdown>
             </Menu>
 
