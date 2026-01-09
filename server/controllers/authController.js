@@ -28,13 +28,13 @@ export const login = async (req, res) => {
       return res.status(200).json({ message: 'Already logged in' });
     }
     const refreshToken = jwt.sign(
-      { email: user.email, id: user.id },
+      { email: user.email, id: user.id, role: user.role },
       process.env.JWT_REFRESH_SECRET,
       { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN }
     );
 
     const accessToken = jwt.sign(
-      { email: user.email, id: user.id },
+      { email: user.email, id: user.id, role: user.role },
       process.env.JWT_ACCESS_SECRET,
       { expiresIn: process.env.JWT_ACCESS_EXPIRES_IN }
     );
@@ -124,7 +124,7 @@ export const createAccessToken = (req, res) => {
       }
 
       const accessToken = jwt.sign(
-        { email: decoded.email, id: decoded.id },
+        { email: decoded.email, id: decoded.id, role: decoded.role },
         process.env.JWT_ACCESS_SECRET,
         { expiresIn: process.env.JWT_ACCESS_EXPIRES_IN }
       );
