@@ -9,6 +9,7 @@ import { getUser } from '../../redux/thunk/userProduct'
 import CartProductList from '../../components/productsList/CartProductList'
 import { slantLineThrough } from '../../helpers/variables'
 import { BasicButton } from '../../components/buttons/Buttons'
+import Container from '../../components/container/Container'
 
 function Cart() {
   const user = useSelector(state => state.userDetails.user)
@@ -34,14 +35,26 @@ function Cart() {
     }
   }, [user])
   return (
-    <Box h={'100vh'} w={'100vw'}>
-      <Navbar />
-      <Flex align={'center'} m={'auto'} direction={'column'} h={'80vh'} w={'80%'}>
+    <Container>
+      <Flex
+        align={'center'}
+        m={'auto'}
+        direction={'column'}
+        h={{ xs: '80%', sm: '80%', md: '80%', lg: '80%', xl: '90%' }}
+        w={{ xs: '90%', sm: '90%', md: '90%', lg: '80%', xl: '80%' }}
+      >
         <CartProductList products={user?.data?.cart} navigate={navigate} />
       </Flex>
       {user?.data?.cart?.length > 0 &&
-        <Box pos={'absolute'} h={'auto'} w={'100%'} bottom={0} style={{ zIndex: 5 }} bd={'1px solid green.0'}>
-          <Flex px={'xl'} h={'100%'} w={'100%'} justify={'space-between'} align={'center'} direction={'row'}>
+        <Box
+          h={{ xs: '20%', sm: '20%', md: '20%', lg: '20%', xl: '10%' }}
+          w={{ xs: '90%', sm: '90%', md: '100%', lg: '80%', xl: '80%' }}
+          style={{ zIndex: 5 }}
+          m={'auto'}
+
+          bd={'1px solid green.0'}
+        >
+          <Flex px={'xl'} h={'100%'} w={'100%'} justify={'space-between'} align={'center'} direction={{ xs: 'column', sm: 'column', md: 'column', lg: 'row', xl: 'row' }}>
             <Box>
 
               <Text>
@@ -53,7 +66,7 @@ function Cart() {
               <Text component='div' ta={'center'} >
                 Total MRP: <Text component='span' bg={slantLineThrough}>₹{(user?.data?.cart?.reduce((acc, product) => acc + product?.productId?.markedPrice * product?.quantity, 0).toFixed(2))}</Text>
               </Text>
-              <Text ta={'center'} size='xl' c={'green.0'}>
+              <Text ta={'center'} size={{ xs: 'sm', sm: 'sm', md: 'sm', lg: 'xl', xl: 'xl' }} c={'green.0'}>
                 LazeyStore Discounted Price:  <NumberFormatter thousandsGroupStyle='lakh' thousandSeparator=',' prefix='₹' value={(user?.data?.cart?.reduce((acc, product) => acc + product?.productId?.salePrice * product?.quantity, 0).toFixed(2))} />
               </Text>
             </Flex>
@@ -66,7 +79,8 @@ function Cart() {
           </Flex>
         </Box>
       }
-    </Box>
+    </Container>
+
   )
 }
 

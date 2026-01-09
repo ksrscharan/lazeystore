@@ -33,7 +33,7 @@ function EmptyWishlist() {
           <Title order={2} fw={800} lts={-0.5}>
             Nothing to see here... yet.
           </Title>
-          <Text c="dimmed" fz="lg" mt="xs" fw={500} italic={true}>
+          <Text c="dimmed" fz="lg" mt="xs" fw={500} fs={'italic'}>
             "{randomMessage}"
           </Text>
         </Box>

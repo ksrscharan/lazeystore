@@ -13,9 +13,9 @@ function CarouselCard({ product }) {
             p={0}
         >
             <Card.Section>
-            <Badge pos={'absolute'} top={0} mx={'md'}><Text size='xs'>{Math.round(100 - (product.salePrice / product.markedPrice * 100))}% Off</Text></Badge>
-                <Image loading='lazy' src={product.imageUrl[0]} />
-                {/* <Image loading='lazy' src={"https://images.pexels.com/photos/221185/pexels-photo-221185.jpeg"} /> */}
+            <Badge pos={'absolute'} top={0} mx={'md'}><Text size='xs'>{Math.round(100 - (product.salePrice / product.markedPrice * 100))}% Off</Text></Badge>                  
+                <Image loading='lazy' src={product.imageUrl[0]} fallbackSrc="https://placehold.co/100x100?text=No+Image" />
+                {/* <Image loading='lazy' fallbackSrc="https://placehold.co/100x100?text=No+Image" src={"https://images.pexels.com/photos/221185/pexels-photo-221185.jpeg"} /> */}
             </Card.Section>
             <Box py={'sm'}>
                 <Text size="xs">{product.title}</Text>

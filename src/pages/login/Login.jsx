@@ -8,10 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import bakImage from '../../assets/loginbg.webp';
 import { BasicButton } from '../../components/buttons/Buttons';
 import Link from '../../components/links/Link';
-import Navbar from '../../components/navbar/Navbar';
 import { setAccessToken } from '../../redux/reducers/accessTokenSlice';
 import { setEmail, setPassword } from '../../redux/reducers/loginFormSlice';
 import { getNewAccessToken } from '../../redux/thunk/account';
+import Container from '../../components/container/Container';
 
 function Login() {
   const navigate = useNavigate();
@@ -49,59 +49,34 @@ function Login() {
     getNewAccessToken(dispatch);
   }, []);
   useEffect(() => {
-        if(token){
+    if (token) {
       navigate('/')
     }
   }, [token]);
 
   return (
     <>
-      <Flex direction={'column'} mih={'100vh'}>
-        <Navbar />
+      <Container>
         <Flex
-          direction={{
-            xs: 'column',
-            sm: 'column',
-            md: 'row',
-            lg: 'row',
-            xl: 'row'
-          }}
+          direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }}
           gutter={0}
-          style={{ flexGrow: 1 }}
+          h={'100%'}
         >
           <Box
             bg={'green.0'}
-            mih={{
-              xs: '200px',
-              sm: '200px',
-              md: '100%',
-              lg: '',
-              xl: ''
-            }}
+            mih={{ xs: '30%', sm: '30%', md: '30%', lg: '100%', xl: '100%' }}
+            w={{ xs: '100%', sm: '100%', md: '50%', lg: '40%', xl: '40%' }}
             style={{
               backgroundImage: `url(${bakImage})`,
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
-            }}
-            w={{
-              xs: '100%',
-              sm: '100%',
-              md: '50%',
-              lg: '40%',
-              xl: '40%'
             }}
           >
             <Flex
               align="center"
               direction="column"
               justify="center"
-              mih={{
-                xs: '200px',
-                sm: '200px',
-                md: '100%',
-                lg: '',
-                xl: ''
-              }}
+              mih={{ xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' }}
               p="xl"
               style={{
                 backgroundImage: `url(${bakImage})`,
@@ -118,25 +93,7 @@ function Login() {
               </Text>
             </Flex>
           </Box>
-
-          <Flex
-            align={'center'}
-            className="login-box2"
-            justify={'center'}
-            mih={{
-              xs: '',
-              sm: '',
-              md: '100%',
-              lg: '',
-              xl: ''
-            }}
-            p={{
-              xs: 'lg',
-              sm: '',
-              md: 'none',
-              lg: '',
-              xl: ''
-            }}
+          <Box
             w={{
               xs: '100%',
               sm: '100%',
@@ -144,74 +101,90 @@ function Login() {
               lg: '60%',
               xl: '60%'
             }}
+            mx={{
+              xs: 'auto',
+              sm: 'auto',
+              md: 'auto',
+              lg: 'auto',
+              xl: 'auto'
+            }}
+            my={{
+              xs: 'xl',
+              sm: 'xl',
+              md: 'auto',
+              lg: 'auto',
+              xl: 'auto'
+            }}
           >
-            <Box
-              mih={'30%'}
+            <Flex
+              direction={'column'}
               w={{
-                xs: '90%',
-                sm: '60%',
-                md: '70%',
-                lg: '',
+                xs: '80%',
+                sm: '80%',
+                md: '80%',
+                lg: '60%',
                 xl: '40%'
               }}
+              gap={'xl'}
+              justify={'space-evenly'}
+              m={'auto'}
             >
-              <Flex direction={'column'} h={'100%'} justify={'space-evenly'}>
-                <Flex direction={'column'} gap={'lg'}>
-                  <Input.Wrapper label="E-mail" required>
-                    <Input
-                      error={loginError || !mailValid}
-                      onBlur={() => {
-                        setMailValid(emailIsValid(email));
-                      }}
-                      onChange={(e) => {
-                        dispatch(setEmail(e.target.value));
-                        setLoginError(false);
-                      }}
-                      onFocus={() => {
-                        setMailValid(true);
-                      }}
-                      placeholder="Email Here"
-                      rightSection={
-                        !mailValid ? <IconExclamationCircle size={20} /> : false
-                      }
-                      size="md"
-                      type="email"
-                    />
-                  </Input.Wrapper>
-                  <PasswordInput
-                    error={loginError ? loginError : false}
-                    label="Password"
-                    onChange={(e) => dispatch(setPassword(e.target.value))}
-                    placeholder="Password Here"
-                    required
-                    size="md"
-                  />
-                </Flex>
-                <Flex
-                  align={'center'}
-                  justify={'space-between'}
-                  mt="lg"
-                  w={'100%'}
-                >
-                  <Text size="sm">
-                    Create Account&nbsp;
-                    <Link to={'/signup'}>Sign Up</Link>
-                  </Text>
-                  <BasicButton
-                    disabled={!(email && mailValid && password)}
-                    onClick={() => {
-                      handleSubmit(email, password);
+              <Flex direction={'column'} gap={'lg'}>
+                <Input.Wrapper label="E-mail" required>
+                  <Input
+                    error={loginError || !mailValid}
+                    onBlur={() => {
+                      setMailValid(emailIsValid(email));
                     }}
+                    onChange={(e) => {
+                      dispatch(setEmail(e.target.value));
+                      setLoginError(false);
+                    }}
+                    onFocus={() => {
+                      setMailValid(true);
+                    }}
+                    placeholder="Email Here"
+                    rightSection={
+                      !mailValid ? <IconExclamationCircle size={20} /> : false
+                    }
                     size="md"
-                  >
-                    Log In
-                  </BasicButton>
-                </Flex>
+                    type="email"
+                  />
+                </Input.Wrapper>
+                <PasswordInput
+                  error={loginError ? loginError : false}
+                  label="Password"
+                  onChange={(e) => dispatch(setPassword(e.target.value))}
+                  placeholder="Password Here"
+                  required
+                  size="md"
+                />
               </Flex>
-            </Box>
-          </Flex>
+              <Flex
+                align={'center'}
+                justify={'space-between'}
+                mt="lg"
+                w={'100%'}
+              >
+                <Text size="sm">
+                  Create Account&nbsp;
+                  <Link to={'/signup'}>Sign Up</Link>
+                </Text>
+                <BasicButton
+                  disabled={!(email && mailValid && password)}
+                  onClick={() => {
+                    handleSubmit(email, password);
+                  }}
+                  size="md"
+                >
+                  Log In
+                </BasicButton>
+              </Flex>
+            </Flex>
+          </Box>
         </Flex>
-      </Flex>
+      </Container>
+
     </>
   );
 }
