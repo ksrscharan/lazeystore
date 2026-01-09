@@ -28,77 +28,61 @@ function Search() {
   }, [searchTerm])
 
   return (
-    <Box pos={'relative'} w={'100%'}>
-      <Flex align={'center'} justify={'center'} w={'100%'}>
-        <Input
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search for your favourite product here.."
-          rightSection={
-            <CloseButton
-              aria-label="Clear input"
-              onClick={() => setSearchTerm('')}
-              style={{
-                display: searchTerm ? undefined : 'none',
-              }}
-            />
-          }
-          rightSectionPointerEvents="all"
-          style={{
-            '&: Within': {
+    <Box pos="relative" w="100%">
+      <Input
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search for your favourite product here.."
+        rightSection={
+          <CloseButton
+            aria-label="Clear input"
+            onClick={() => setSearchTerm('')}
+            style={{ display: searchTerm ? undefined : 'none' }}
+          />
+        }
+        rightSectionPointerEvents="all"
+        value={searchTerm}
+        size="md" // better touch target on mobile
+        styles={{
+          input: {
+            borderColor: 'var(--mantine-color-green-0)',
+            '&:focus': {
               outline: '2px solid var(--mantine-color-blue-5)',
+              borderColor: 'var(--mantine-color-green-0)',
             },
-            outline: 'var(--mantine-color-green-0)',
-          }}
-          value={searchTerm}
-          w={{
-            xs: '90%',
-            sm: '90%',
-            md: '90%',
-            lg: '60%',
-            xl: '60%'
-          }}
-        />
-      </Flex>
+          },
+        }}
+      />
+
+      {/* Dropdown results */}
       {products && searchTerm.length >= 3 && (
-        <Flex
-          bd={'1px solid var(--mantine-color-green-0)'}
-          bdrs={'sm'}
-          bg={'white'}
-          direction={'column'}
-          h={'50vh'}
-          justify={'flex-start'}
-          left={{
-            xs: '',
-            sm: '',
-            md: '',
-            lg: 0,
-            xl: 0
-          }}
-          p="md"
+        <Box
           pos="absolute"
-          style={{ overflow: 'hidden', scrollbarWidth: 'thin', zIndex: 3 }}
-          top="100%"
-          w={{
-            xs: '100vw',
-            sm: '100vw',
-            md: '100vw',
-            lg: '100%',
-            xl: '100%'
+          top="calc(100% + 4px)" // small gap below input
+          left={0}
+          right={0}
+          mt="xs"
+          bd="1px solid var(--mantine-color-green-0)"
+          bdrs="md"
+          bg="var(--mantine-color-body)"
+          style={{
+            maxHeight: '60vh',
+            overflowY: 'auto',
+            zIndex: 1001,
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
           }}
         >
           {products.length > 0 ? (
-
             <SearchBox
               filteredProducts={products}
               navigate={navigate}
               setSearchTerm={setSearchTerm}
             />
           ) : (
-            searchTerm.length >= 3 && (
-              <Text ta="center">{`No products found matching ${searchTerm}`}</Text>
-            )
+            <Text ta="center" p="md" c="dimmed">
+              No products found matching "{searchTerm}"
+            </Text>
           )}
-        </Flex>
+        </Box>
       )}
     </Box>
   );

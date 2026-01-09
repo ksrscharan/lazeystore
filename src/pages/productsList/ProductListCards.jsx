@@ -18,17 +18,30 @@ function ProductListCards({ products, navigate }) {
                     }}
                     p={'sm'}
                     style={{ cursor: 'pointer', zIndex: 5 }}
-                    w={'100%'}
+                    w={{ xs: '90%', sm: '90%', md: '70%', lg: '100%', xl: '100%' }}
+                    m={{ xs: 'auto', sm: 'auto', md: 'auto', lg: 'auto', xl: 'auto' }}
                 >
-                    <Flex gap={'sm'} justify={'space-evenly'}>
+                    <Flex
+                        gap={'sm'}
+                        justify={'space-evenly'}
+                        direction={{ xs: 'column', sm: 'column', md: 'column', lg: 'row', xl: 'row' }}
+                        m={{ xs: 'auto', sm: 'auto', md: 'auto', lg: 'auto', xl: 'auto' }}
+                        align={'center'}
+
+                    >
                         <Image
-                                src={product.imageUrl[0]}
-                                visibleFrom="lg"
-                                w={'10%'}
-                                loading='lazy'
-                                />
-                        <Box w={'60%'}>
-                            <Flex align={'center'}>
+                            src={product.imageUrl[0]}
+                            fallbackSrc="https://placehold.co/100x100?text=No+Image"
+                            // visibleFrom="lg"
+                            h={{ xs: '300px', sm: '300px', md: '300px', lg: '100%', xl: '100%' }}
+                            w={{ xs: '100%', sm: '100%', md: '300px', lg: '10%', xl: '10%' }}
+                            loading='lazy'
+                        />
+                        <Box w={{ xs: '100%', sm: '100%', md: '100%', lg: '60%', xl: '60%' }}>
+                            <Flex 
+                            align={'center'}
+                            justify={{ xs: 'center', sm: 'center', md: 'center', lg: 'left', xl: 'left' }}
+                            >
                                 <Badge
                                     color="green.0"
                                     size="xs"
@@ -57,13 +70,21 @@ function ProductListCards({ products, navigate }) {
                                     </Text>
                                 </Badge>
                             </Flex>
-                            <Text size="lg">
+                            <Text 
+                            size="lg"
+                            ta={{ xs: 'center', sm: 'center', md: 'center', lg: 'left', xl: 'left' }}
+                            >
                                 {product?.condition === "Refurbished" && "Refurbished - "}{product?.title} - {product?.subTitle}
                             </Text>
-                            <Text c={'black'} size="xs">
+                            <Text 
+                            c={'black'} 
+                            size="xs"
+                            ta={{ xs: 'center', sm: 'center', md: 'center', lg: 'left', xl: 'left' }}
+                            >
                                 {product?.description}
                             </Text>
                             {product?.reviews && <Rating
+                                mx={{ xs: 'auto', sm: 'auto', md: 'auto', lg: 'inherit', xl: 'inherit' }}
                                 readOnly
                                 value={
                                     product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length
@@ -71,7 +92,7 @@ function ProductListCards({ products, navigate }) {
                                 fractions={2}
                             />}
                         </Box>
-                        <Box w={'20%'}>
+                        <Box w={{ xs: '100%', sm: '100%', md: '100%', lg: '20%', xl: '20%' }}>
                             <Flex align={'center'} direction={'column'} justify={'space-evenly'} h={'100%'}>
                                 <Flex>
                                     Market Price:&nbsp;

@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import signupBg from '../../assets/signupbg.webp';
 import { BasicButton } from '../../components/buttons/Buttons';
 import Link from '../../components/links/Link';
-import Navbar from '../../components/navbar/Navbar';
 import { setAccessToken } from '../../redux/reducers/accessTokenSlice';
 import {
   setEmail,
@@ -16,6 +15,7 @@ import {
   setLastname,
   setPassword,
 } from '../../redux/reducers/signupFormSlice';
+import Container from '../../components/container/Container';
 
 function SignUp() {
   const dispatch = useDispatch();
@@ -57,53 +57,27 @@ function SignUp() {
 
   return (
     <>
-      <Flex direction={'column'} mih={'100vh'}>
-        <Navbar />
-
+      <Container>
         <Flex
-          direction={{
-            xs: 'column',
-            sm: 'column',
-            md: 'row',
-            lg: 'row',
-            xl: 'row'
-          }}
+          direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row' }}
           gutter={0}
-          style={{ flexGrow: 1 }}
+          h={'100%'}
         >
           <Box
             bg={'green.0'}
-            mih={{
-              xs: '200px',
-              sm: '200px',
-              md: '100%',
-              lg: '',
-              xl: ''
-            }}
+            mih={{ xs: '30%', sm: '30%', md: '30%', lg: '100%', xl: '100%' }}
+            w={{ xs: '100%', sm: '100%', md: '50%', lg: '40%', xl: '40%' }}
             style={{
               backgroundImage: `url(${signupBg})`,
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
-            }}
-            w={{
-              xs: '100%',
-              sm: '100%',
-              md: '50%',
-              lg: '40%',
-              xl: '40%'
             }}
           >
             <Flex
               align="center"
               direction="column"
               justify="center"
-              mih={{
-                xs: '200px',
-                sm: '200px',
-                md: '100%',
-                lg: '',
-                xl: ''
-              }}
+              mih={{ xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: '100%' }}
               p="xl"
               style={{
                 backgroundImage: `url(${signupBg})`,
@@ -121,24 +95,8 @@ function SignUp() {
             </Flex>
           </Box>
 
-          <Flex
-            align={'center'}
-            className="login-box2"
-            justify={'center'}
-            mih={{
-              xs: '',
-              sm: '',
-              md: '100%',
-              lg: '',
-              xl: ''
-            }}
-            p={{
-              xs: 'lg',
-              sm: '',
-              md: 'none',
-              lg: '',
-              xl: ''
-            }}
+
+          <Box
             w={{
               xs: '100%',
               sm: '100%',
@@ -146,103 +104,119 @@ function SignUp() {
               lg: '60%',
               xl: '60%'
             }}
+            mx={{
+              xs: 'auto',
+              sm: 'auto',
+              md: 'auto',
+              lg: 'auto',
+              xl: 'auto'
+            }}
+            my={{
+              xs: 'xl',
+              sm: 'xl',
+              md: 'auto',
+              lg: 'auto',
+              xl: 'auto'
+            }}
           >
-            <Box
-              mih={'30%'}
+            <Flex
+              direction={'column'}
               w={{
-                xs: '90%',
-                sm: '60%',
-                md: '70%',
-                lg: '70%',
+                xs: '80%',
+                sm: '80%',
+                md: '80%',
+                lg: '60%',
                 xl: '40%'
               }}
+              gap={'xl'}
+              justify={'space-evenly'}
+              m={'auto'}
             >
-              <Flex direction={'column'} h={'100%'} justify={'space-evenly'}>
-                <Flex direction={'column'} gap={'lg'}>
-                  <Flex gap={'md'} justify={'space-between'}>
+              <Flex direction={'column'} gap={'lg'}>
+                <Flex gap={'md'} justify={'space-between'}>
 
-                    <Input.Wrapper label="First Name" required>
-                      <Input
-                        error={signupError ? true : false}
-                        onChange={(e) => {
-                          dispatch(setFirstname(e.target.value));
-                          setSignupError(null);
-                        }}
-                        placeholder="Enter Your Name"
-                        size="md"
-                        type="text"
-                      />
-                    </Input.Wrapper>
-                    <Input.Wrapper label="Last Name" required>
-                      <Input
-                        error={signupError ? true : false}
-                        onChange={(e) => {
-                          dispatch(setLastname(e.target.value));
-                          setSignupError(null);
-                        }}
-                        placeholder="Enter Your Last Name"
-                        size="md"
-                        type="text"
-                      />
-                    </Input.Wrapper>
-                  </Flex>
-                  <Input.Wrapper label="E-mail" required>
+                  <Input.Wrapper label="First Name" required>
                     <Input
-                      error={signupError || !mailValid}
-                      onBlur={() => {
-                        setMailValid(emailIsValid(email));
-                      }}
+                      error={signupError ? true : false}
                       onChange={(e) => {
-                        dispatch(setEmail(e.target.value));
+                        dispatch(setFirstname(e.target.value));
                         setSignupError(null);
                       }}
-                      onFocus={() => {
-                        setMailValid(true);
-                      }}
-                      placeholder="Email Here"
-                      rightSection={
-                        !mailValid ? <IconExclamationCircle size={20} /> : false
-                      }
+                      placeholder="Enter Your Name"
                       size="md"
-                      type="email"
+                      type="text"
                     />
                   </Input.Wrapper>
-                  <PasswordInput
-                    error={signupError ? signupError : false}
-                    label="Password"
+                  <Input.Wrapper label="Last Name" required>
+                    <Input
+                      error={signupError ? true : false}
+                      onChange={(e) => {
+                        dispatch(setLastname(e.target.value));
+                        setSignupError(null);
+                      }}
+                      placeholder="Enter Your Last Name"
+                      size="md"
+                      type="text"
+                    />
+                  </Input.Wrapper>
+                </Flex>
+                <Input.Wrapper label="E-mail" required>
+                  <Input
+                    error={signupError || !mailValid}
+                    onBlur={() => {
+                      setMailValid(emailIsValid(email));
+                    }}
                     onChange={(e) => {
-                      dispatch(setPassword(e.target.value));
+                      dispatch(setEmail(e.target.value));
                       setSignupError(null);
                     }}
-                    placeholder="Password Here"
-                    required
-                    size="md"
-                  />
-                </Flex>
-                <Flex
-                  align={'center'}
-                  justify={'space-between'}
-                  mt="lg"
-                  w={'100%'}
-                >
-                  <Text size="sm">
-                    Have an account? <Link to={'/login'}>Log In</Link>
-                  </Text>
-                  <BasicButton
-                    disabled={!(firstname && lastname && email && mailValid && password)}
-                    onClick={() => {
-                      handleSignUp(firstname, lastname, email, password);
+                    onFocus={() => {
+                      setMailValid(true);
                     }}
+                    placeholder="Email Here"
+                    rightSection={
+                      !mailValid ? <IconExclamationCircle size={20} /> : false
+                    }
                     size="md"
-                  >
-                    Sign Up
-                  </BasicButton>
-                </Flex>
+                    type="email"
+                  />
+                </Input.Wrapper>
+                <PasswordInput
+                  error={signupError ? signupError : false}
+                  label="Password"
+                  onChange={(e) => {
+                    dispatch(setPassword(e.target.value));
+                    setSignupError(null);
+                  }}
+                  placeholder="Password Here"
+                  required
+                  size="md"
+                />
               </Flex>
-            </Box>
-          </Flex>
+              <Flex
+                align={'center'}
+                justify={'space-between'}
+                mt="lg"
+                w={'100%'}
+              >
+                <Text size="sm">
+                  Have an account? <Link to={'/login'}>Log In</Link>
+                </Text>
+                <BasicButton
+                  disabled={!(firstname && lastname && email && mailValid && password)}
+                  onClick={() => {
+                    handleSignUp(firstname, lastname, email, password);
+                  }}
+                  size="md"
+                >
+                  Sign Up
+                </BasicButton>
+              </Flex>
+            </Flex>
+          </Box>
         </Flex>
-      </Flex>
+      </Container>
+
     </>
   );
 }

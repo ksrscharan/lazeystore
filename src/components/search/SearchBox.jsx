@@ -59,6 +59,7 @@ function SearchBox({ filteredProducts, navigate, setSearchTerm }) {
                 </Text>
               </Box>
               <Image
+              fallbackSrc="https://placehold.co/100x100?text=No+Image" 
                 src={product.imageUrl[0]}
                 visibleFrom="lg"
                 w={'10%'}

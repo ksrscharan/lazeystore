@@ -1,9 +1,9 @@
-import { Box, Flex, Rating, ScrollAreaAutosize, Text, Textarea, TextInput } from '@mantine/core';
+import { Box, Flex, Loader, Rating, ScrollArea, Text, TextInput, Textarea } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-import Navbar from '../../components/navbar/Navbar';
 import ImageCarousel from './ImageCarousel';
 import ProductDescription from './ProductDescription';
 import { getNewAccessToken } from '../../redux/thunk/account';
@@ -12,121 +12,191 @@ import { selectCurrentProduct } from '../../redux/selectors/productsSelector';
 import DashboardCarousels from '../../components/carousel/DashboardCarousels';
 import { BasicButton } from '../../components/buttons/Buttons';
 import { IconUserFilled } from '@tabler/icons-react';
+import Container from '../../components/container/Container';
 
 function ProductDetails() {
   const dispatch = useDispatch();
   const { slug } = useParams();
   const token = useSelector((state) => state.accessToken.token);
+  const product = useSelector(selectCurrentProduct);
+
   const [userReview, setUserReview] = useState({
     ratings: 0,
     reviewTitle: "",
     reviewDescription: ""
-  })
-  const product = useSelector(selectCurrentProduct);
+  });
+
   useEffect(() => {
     dispatch(fetchProductDetails(slug));
-  }, [slug]);
+  }, [dispatch, slug]);
+
   useEffect(() => {
     if (token === null) {
       getNewAccessToken(dispatch);
     }
-  }, [token, dispatch]);
+  }, [dispatch, token]);
+
   const handleReviewSubmit = async () => {
-    if (userReview.ratings > 0 && userReview.reviewTitle !== "" && userReview.reviewDescription !== "") {
-      const res = await axios.get();
+    if (userReview.ratings > 0 && userReview.reviewTitle.trim() !== "" && userReview.reviewDescription.trim() !== "") {
+      try {
+        const res = await axios.post('/api/reviews', {
+          productId: product?._id,
+          ...userReview
+        });
+        console.log('Review submitted:', res.data);
+        setUserReview({ ratings: 0, reviewTitle: "", reviewDescription: "" });
+      } catch (err) {
+        console.error('Review submission failed:', err);
+      }
     }
+  };
+
+  if (!product) {
+    return (
+      <Container>
+        <Box h={'100%'} m={'auto'}>
+          <Loader color="green.0" size="xl" type="dots" />
+        </Box>
+      </Container>
+    );
   }
 
-
   return (
-    <Box h={'100vh'}>
-      <Navbar />
-      <Flex direction={'column'} mah={'90vh'} style={{ overflow: 'hidden' }}>
-        <ScrollAreaAutosize type='hover' offsetScrollbars>
+    <Container>
 
+    <Flex direction="column" h="100%" style={{ overflow: 'hidden' }}>
+      <ScrollArea
+        type="hover"
+        scrollbars="y"
+        styles={{
+          viewport: { overflowX: 'hidden' },
+          scrollbar: { width: 8 },
+        }}
+      >
+        <Box p={{ base: 'md', md: 'xl' }} pb="xl">
           <Flex
-            direction={{
-              xs: 'column',
-              sm: 'column',
-              md: 'column',
-              lg: 'row',
-              xl: 'row'
-            }}
-            gap={'md'}
-            h={'100%'}
-            mih={'100%'}
-            p={'xl'}
-            style={{ flexGrow: 1 }}
-            w={'100%'}
+            direction={{ base: 'column', lg: 'row' }}
+            gap={{ base: 'md', lg: 'xl' }}
+            align={{ lg: 'flex-start' }}
           >
-            {product &&
+            <Box w={{ base: '100%', lg: '50%' }}>
               <ImageCarousel product={product} />
-            }
-            {product &&
+            </Box>
+
+            <Box w={{ base: '100%', lg: '50%' }}>
               <ProductDescription product={product} />
-            }
-          </Flex>
-          <DashboardCarousels collectionKey={"relatedCategory"} carouselTitle={`Similar Products from ${product?.category} Category`} navigationPath={`/products/category/${product?.category}`} />
-          <DashboardCarousels collectionKey={"relatedSubCategory"} carouselTitle={`Similar Products from ${product?.category} > ${product?.subCategory}`} navigationPath={`/products/category/${product?.category}/${product?.subCategory}`} />
-          <Flex m={'lg'} w={'50%'} direction={'column'} gap={'sm'}>
-            <Text fw={900} size='xl'>{`Write your Experience with ${product?.title}`}</Text>
-            <Flex>
-
-              <Text>Rate your Experience: </Text><Rating onChange={(e) => {
-                console.log(e)
-                setUserReview({ ...userReview, ratings: e })
-              }} />
-              {userReview.ratings === 1 && <Text size='sm'>Very Bad Product</Text>}
-              {userReview.ratings === 2 && <Text size='sm'>Bad Product</Text>}
-              {userReview.ratings === 3 && <Text size='sm'>Average Product</Text>}
-              {userReview.ratings === 4 && <Text size='sm'>Good Product</Text>}
-              {userReview.ratings === 5 && <Text size='sm'>Very Good Product</Text>}
-            </Flex>
-            <TextInput
-              onChange={(e) => {
-                console.log(e.target.value)
-                setUserReview({ ...userReview, reviewTitle: e.target.value })
-              }}
-              description="Your review will be visible to everyone. Use appropriate language."
-              placeholder='Review Title'
-            />
-            <Textarea
-              onChange={(e) => {
-                console.log(e.target.value)
-                setUserReview({ ...userReview, reviewDescription: e.target.value })
-              }}
-              placeholder={`Describe your Product Experience for ${product?.title}`}
-              minRows={2}
-              maxRows={4}
-            />
-            <Flex align={'center'} justify={'space-between'}>
-              <Text size='xs'>*Abusive Language will result in Account Ban.</Text>
-              <BasicButton onClick={handleReviewSubmit}>Submit Review</BasicButton>
-            </Flex>
+            </Box>
           </Flex>
 
-          <Box>
-            <Text m={'lg'} fw={900} size='xl'>Top Reviews from Users who bought {product?.title} </Text>
-            {product?.reviews?.length == 0 ?
-              <Text m={'lg'}>No User Reviews</Text> :
-              product?.reviews?.map((review, idx) => (
-                <Box m={'lg'} key={idx}>
-                  <Flex align={'center'} gap={'sm'} my={'md'}>
-
-                    <IconUserFilled />
-                    <Text h={'100%'} component='div'>{review?.user}</Text>
-                  </Flex>
-                  <Flex align={'center'}>
-
-                    <Text component='span'>Rating: </Text> <Rating readOnly value={review.rating} />
-                  </Flex>
-                  Comment: <Text component='span' fs={'italic'}>{review.review}</Text>
-                </Box>
-              ))}
+          <Box my="xl">
+            <DashboardCarousels
+              collectionKey="relatedCategory"
+              carouselTitle={`Similar Products from ${product?.category} Category`}
+              navigationPath={`/products/category/${product?.category}`}
+            />
           </Box>
-        </ScrollAreaAutosize>
-      </Flex>
-    </Box>
+
+          <Box my="xl">
+            <DashboardCarousels
+              collectionKey="relatedSubCategory"
+              carouselTitle={`Similar Products from ${product?.category} > ${product?.subCategory}`}
+              navigationPath={`/products/category/${product?.category}/${product?.subCategory}`}
+            />
+          </Box>
+
+          <Box my="xl" maw={700}>
+            <Text fw={900} size="xl" mb="md">
+              Write your Experience with {product?.title}
+            </Text>
+
+            <Flex align="center" gap="xs" mb="sm">
+              <Text fw={500}>Rate your Experience:</Text>
+              <Rating
+                value={userReview.ratings}
+                onChange={(val) => setUserReview({ ...userReview, ratings: val })}
+                size="lg"
+              />
+              {userReview.ratings > 0 && (
+                <Text size="sm" c="dimmed" ml="xs">
+                  {['Very Bad', 'Bad', 'Average', 'Good', 'Very Good'][userReview.ratings - 1]} Product
+                </Text>
+              )}
+            </Flex>
+
+            <TextInput
+              value={userReview.reviewTitle}
+              onChange={(e) => setUserReview({ ...userReview, reviewTitle: e.currentTarget.value })}
+              placeholder="Review Title"
+              description="Your review will be visible to everyone. Use appropriate language."
+              mb="md"
+            />
+
+            <Textarea
+              value={userReview.reviewDescription}
+              onChange={(e) => setUserReview({ ...userReview, reviewDescription: e.currentTarget.value })}
+              placeholder={`Describe your Product Experience for ${product?.title}`}
+              minRows={3}
+              maxRows={6}
+              mb="md"
+            />
+
+            <Flex align="center" justify="space-between">
+              <Text size="xs" c="dimmed">
+                *Abusive Language will result in Account Ban.
+              </Text>
+              <BasicButton
+                onClick={handleReviewSubmit}
+                disabled={
+                  userReview.ratings === 0 ||
+                  userReview.reviewTitle.trim() === "" ||
+                  userReview.reviewDescription.trim() === ""
+                }
+              >
+                Submit Review
+              </BasicButton>
+            </Flex>
+          </Box>
+
+          <Box my="xl">
+            <Text fw={900} size="xl" mb="md">
+              Top Reviews from Users who bought {product?.title}
+            </Text>
+
+            {product?.reviews?.length === 0 ? (
+              <Text c="dimmed" ta="center">
+                No User Reviews yet. Be the first!
+              </Text>
+            ) : (
+              product.reviews.map((review, idx) => (
+                <Box
+                  key={idx}
+                  p="md"
+                  mb="md"
+                  bd="1px solid var(--mantine-color-dark-4)"
+                  style={{ borderRadius: 8 }}
+                >
+                  <Flex align="center" gap="sm" mb="xs">
+                    <IconUserFilled size={20} />
+                    <Text fw={500}>{review?.user || 'Anonymous'}</Text>
+                  </Flex>
+
+                  <Flex align="center" gap="xs" mb="xs">
+                    <Text size="sm" fw={500}>Rating:</Text>
+                    <Rating value={review.rating} readOnly size="sm" />
+                  </Flex>
+
+                  <Text size="sm" fs="italic" c="dimmed">
+                    {review.review}
+                  </Text>
+                </Box>
+              ))
+            )}
+          </Box>
+        </Box>
+      </ScrollArea>
+    </Flex>
+    </Container>
+
   );
 }
 

@@ -24,7 +24,7 @@ function ImageCarousel({ product }) {
         >
           {product?.imageUrl?.map((i, ind) => (
             <Carousel.Slide key={ind}>
-              <Image loading='lazy' alt={product?.title} key={ind} src={i} w={'100%'} />
+              <Image fallbackSrc="https://placehold.co/100x100?text=No+Image"  loading='lazy' alt={product?.title} key={ind} src={i} w={'100%'} />
             </Carousel.Slide>
           ))}
         </Carousel>
